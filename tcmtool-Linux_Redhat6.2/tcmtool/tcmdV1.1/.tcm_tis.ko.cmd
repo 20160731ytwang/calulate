@@ -1,0 +1,1 @@
+cmd_/root/Desktop/tcmtool-fu/tcmtool/tcmdV1.1/tcm_tis.ko := ld -m elf_x86_64 -r -o /root/Desktop/tcmtool-fu/tcmtool/tcmdV1.1/tcm_tis.ko /root/Desktop/tcmtool-fu/tcmtool/tcmdV1.1/tcm_tis.o /root/Desktop/tcmtool-fu/tcmtool/tcmdV1.1/tcm_tis.mod.o

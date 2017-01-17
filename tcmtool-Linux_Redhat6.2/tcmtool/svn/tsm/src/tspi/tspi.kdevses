@@ -1,0 +1,61 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!DOCTYPE KDevPrjSession>
+<KDevPrjSession>
+ <DocsAndViews NumberOfDocuments="12" >
+  <Doc0 NumberOfViews="1" URL="file:///home/allanchen/wdir/tcm/tsm/src/tspi/tspi_own.c" >
+   <View0 Encoding="" Type="Source" />
+  </Doc0>
+  <Doc1 NumberOfViews="1" URL="file:///home/allanchen/wdir/tcm/tsm/src/include/rpc_tcstp_tsp.h" >
+   <View0 Encoding="UTF-8" Type="Source" />
+  </Doc1>
+  <Doc2 NumberOfViews="1" URL="file:///home/allanchen/wdir/tcm/tsm/src/include/spi_utils.h" >
+   <View0 Encoding="UTF-8" Type="Source" />
+  </Doc2>
+  <Doc3 NumberOfViews="1" URL="file:///home/allanchen/wdir/tcm/tsm/src/tspi/rpc/tcs_api.c" >
+   <View0 Encoding="" Type="Source" />
+  </Doc3>
+  <Doc4 NumberOfViews="1" URL="file:///home/allanchen/wdir/tcm/tsm/src/tspi/rpc/tcstp/rpc_own.c" >
+   <View0 Encoding="" Type="Source" />
+  </Doc4>
+  <Doc5 NumberOfViews="1" URL="file:///home/allanchen/wdir/tcm/tsm/src/tspi/tsp_own.c" >
+   <View0 Encoding="" Type="Source" />
+  </Doc5>
+  <Doc6 NumberOfViews="1" URL="file:///home/allanchen/wdir/tcm/tsm/src/include/tss/tss_defines.h" >
+   <View0 Encoding="UTF-8" Type="Source" />
+  </Doc6>
+  <Doc7 NumberOfViews="1" URL="file:///home/allanchen/wdir/tcm/tsm/src/tspi/rpc/tcstp/rpc.c" >
+   <View0 Encoding="" Type="Source" />
+  </Doc7>
+  <Doc8 NumberOfViews="1" URL="file:///home/allanchen/wdir/tcm/tsm/src/tspi/spi_utils.c" >
+   <View0 Encoding="" Type="Source" />
+  </Doc8>
+  <Doc9 NumberOfViews="1" URL="file:///home/allanchen/wdir/tcm/tsm/src/include/tcs_utils.h" >
+   <View0 Encoding="UTF-8" Type="Source" />
+  </Doc9>
+  <Doc10 NumberOfViews="1" URL="file:///home/allanchen/wdir/tcm/tsm/src/tspi/obj.c" >
+   <View0 Encoding="" Type="Source" />
+  </Doc10>
+  <Doc11 NumberOfViews="1" URL="file:///home/allanchen/wdir/tcm/tsm/src/tspi/obj_context.c" >
+   <View0 Encoding="" line="0" Type="Source" />
+  </Doc11>
+ </DocsAndViews>
+ <pluginList>
+  <kdevdebugger>
+   <breakpointList/>
+   <showInternalCommands value="0" />
+  </kdevdebugger>
+  <kdevastyle>
+   <Extensions ext="*.cpp *.h *.hpp,*.c *.h,*.cxx *.hxx,*.c++ *.h++,*.cc *.hh,*.C *.H,*.diff ,*.inl,*.java,*.moc,*.patch,*.tlh,*.xpm" />
+   <AStyle IndentPreprocessors="0" FillCount="4" PadParenthesesOut="1" IndentNamespaces="1" IndentLabels="1" Fill="Tabs" MaxStatement="40" Brackets="Break" MinConditional="-1" IndentBrackets="0" PadParenthesesUn="1" BlockBreak="0" KeepStatements="1" KeepBlocks="1" BlockIfElse="0" IndentSwitches="1" PadOperators="0" FStyle="UserDefined" IndentCases="0" FillEmptyLines="0" BracketsCloseHeaders="0" BlockBreakAll="0" PadParenthesesIn="1" IndentClasses="1" IndentBlocks="0" FillForce="0" />
+  </kdevastyle>
+  <kdevbookmarks>
+   <bookmarks/>
+  </kdevbookmarks>
+  <kdevvalgrind>
+   <executable path="" params="" />
+   <valgrind path="" params="" />
+   <calltree path="" params="" />
+   <kcachegrind path="" />
+  </kdevvalgrind>
+ </pluginList>
+</KDevPrjSession>

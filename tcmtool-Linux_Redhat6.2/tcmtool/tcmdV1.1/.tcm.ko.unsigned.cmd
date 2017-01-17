@@ -1,0 +1,1 @@
+cmd_/root/Desktop/tcmtool/tcmtool/tcmdV1.1/tcm.ko.unsigned := ld -r -m elf_x86_64 -T /usr/src/kernels/2.6.32-220.el6.x86_64/scripts/module-common.lds --build-id -o /root/Desktop/tcmtool/tcmtool/tcmdV1.1/tcm.ko.unsigned /root/Desktop/tcmtool/tcmtool/tcmdV1.1/tcm.o /root/Desktop/tcmtool/tcmtool/tcmdV1.1/tcm.mod.o 

@@ -1,0 +1,97 @@
+ec_encrypt.lo: ec_encrypt.c openssl/bn.h openssl/e_os2.h \
+  openssl/opensslconf.h openssl/ec_operations.h /usr/include/stdio.h \
+  /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-32.h \
+  /usr/lib/gcc/i386-redhat-linux/4.3.2/include/stddef.h \
+  /usr/include/bits/types.h /usr/include/bits/typesizes.h \
+  /usr/include/libio.h /usr/include/_G_config.h /usr/include/wchar.h \
+  /usr/lib/gcc/i386-redhat-linux/4.3.2/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/bits/stdio.h openssl/bnEx.h openssl/bn.h openssl/crypto.h \
+  openssl/stack.h openssl/safestack.h openssl/opensslv.h tcm_rand.h \
+  debug.h tcm_hash.h sch.h tcm_bn.h /usr/include/malloc.h \
+  /usr/include/memory.h /usr/include/string.h /usr/include/bits/string.h \
+  /usr/include/bits/string2.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/bits/byteswap.h \
+  /usr/include/stdlib.h
+
+openssl/bn.h:
+
+openssl/e_os2.h:
+
+openssl/opensslconf.h:
+
+openssl/ec_operations.h:
+
+/usr/include/stdio.h:
+
+/usr/include/features.h:
+
+/usr/include/sys/cdefs.h:
+
+/usr/include/bits/wordsize.h:
+
+/usr/include/gnu/stubs.h:
+
+/usr/include/gnu/stubs-32.h:
+
+/usr/lib/gcc/i386-redhat-linux/4.3.2/include/stddef.h:
+
+/usr/include/bits/types.h:
+
+/usr/include/bits/typesizes.h:
+
+/usr/include/libio.h:
+
+/usr/include/_G_config.h:
+
+/usr/include/wchar.h:
+
+/usr/lib/gcc/i386-redhat-linux/4.3.2/include/stdarg.h:
+
+/usr/include/bits/stdio_lim.h:
+
+/usr/include/bits/sys_errlist.h:
+
+/usr/include/bits/stdio.h:
+
+openssl/bnEx.h:
+
+openssl/bn.h:
+
+openssl/crypto.h:
+
+openssl/stack.h:
+
+openssl/safestack.h:
+
+openssl/opensslv.h:
+
+tcm_rand.h:
+
+debug.h:
+
+tcm_hash.h:
+
+sch.h:
+
+tcm_bn.h:
+
+/usr/include/malloc.h:
+
+/usr/include/memory.h:
+
+/usr/include/string.h:
+
+/usr/include/bits/string.h:
+
+/usr/include/bits/string2.h:
+
+/usr/include/endian.h:
+
+/usr/include/bits/endian.h:
+
+/usr/include/bits/byteswap.h:
+
+/usr/include/stdlib.h:
