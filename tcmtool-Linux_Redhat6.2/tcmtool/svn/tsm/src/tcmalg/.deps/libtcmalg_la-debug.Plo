@@ -1,3 +1,0 @@
-libtcmalg_la-debug.lo: debug.c debug.h
-
-debug.h:

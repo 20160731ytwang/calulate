@@ -1,1 +1,0 @@
-cmd_/home/kevin/TcmdPackage/tcmdV1.1/tcm.ko := ld -r -m elf_i386  --build-id -o /home/kevin/TcmdPackage/tcmdV1.1/tcm.ko /home/kevin/TcmdPackage/tcmdV1.1/tcm.o /home/kevin/TcmdPackage/tcmdV1.1/tcm.mod.o

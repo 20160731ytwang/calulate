@@ -1,7 +1,0 @@
-#
-# Makefile for the kernel tpm device drivers.
-#
-#
-obj-$(CONFIG_TCG_TCM) += tcm.o
-obj-$(CONFIG_TCG_TIS) += tcm_tis.o
-

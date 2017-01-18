@@ -1,2 +1,0 @@
-gcc -I include test.c -L lib -ltddl -ltcs -g -o test.o
-
