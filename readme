@@ -1,1 +1,43 @@
 供可信计算
+
+1)环境变量设置
+source envsetup.sh
+
+2)编译openssl
+
+3)编译trousers
+./configure --host=mips64-octeon-linux  CC=mips64-octeon-linux-gnu-gcc  --with-openssl=/home/jiangwei/dpi_engine/sdk_sys/linux/embedded_rootfs/octeon-rootfs/usr
+make
+--with-openssl应该指向交叉编译得到的openssl相关lib路径
+
+4)编译gmp
+./configure --host=mips64-octeon-linux  CC=mips64-octeon-linux-gnu-gcc ABI=64
+make
+
+5)compile tpm_emulator, depends on gmp in step 4)
+modify CMakeLists.txt, change related path
+
+i> 修改CMakeLists.txt(将库上),然后执行./build.sh
+   如果在编译过程有问题，出现一些宏定义找不到的问题，可以将build文件夹下的config.h文件拷贝到对应的目录下面，eg tpm、tpmd等,
+   tddl目录编译不过，需要把tddl.c中#include <config.h>改为#include "config.h"
+   
+
+ii>只需要tpmd和tpmd_dev.ko
+   tpmd在第一次build的时候就会生成，如果没有生成，可以直接进到build/tpmd里面执行make命令
+
+iii>tpmd_dev.ko是需要内核编译环境，交叉编译时需要该源码中的/tpmd_dev/linux/Makefile中变量KERNEL_BUILD的值
+    且编译时是单独完成，需要进入到build/tpmd_dev下，执行make ARCH=mips CROSS_COMPILE=mips64-octeon-linux-gnu-即可.
+
+
+6)compile tpm_tool
+
+将configure文件中的下面一段脚本注释掉
+if test "x$ac_cv_lib_tspi_Tspi_Context_Create" = xyes; then :
+  TSS_LIB="1"
+else
+  as_fn_error $? "tss lib not found: libtspi.so" "$LINENO" 5
+fi
+
+./configure --host=mips64-octeon-linux  CC=mips64-octeon-linux-gnu-gcc  CFLAGS=-I/home/jiangwei/calu/calulate/trousers-0.3.14/src/include --with-openssl=/home/jiangwei/dpi_engine/sdk_sys/linux/embedded_rootfs/octeon-rootfs/usr LDFLAGS=-L/home/jiangwei/calu/calulate/trousers-0.3.14/src/tspi/.libs
+
+  executable tools hidde in the fold .libs/
