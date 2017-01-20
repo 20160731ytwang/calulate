@@ -8,6 +8,7 @@ source envsetup.sh
 3)编译trousers
 ./configure --host=mips64-octeon-linux  CC=mips64-octeon-linux-gnu-gcc  --with-openssl=/home/jiangwei/dpi_engine/sdk_sys/linux/embedded_rootfs/octeon-rootfs/usr
 make
+需要开启log只需要在configure时，加上 --enable-debug，即可。
 --with-openssl应该指向交叉编译得到的openssl相关lib路径
 
 4)编译gmp
