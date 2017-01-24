@@ -41,4 +41,20 @@ fi
 
 ./configure --host=mips64-octeon-linux  CC=mips64-octeon-linux-gnu-gcc  CFLAGS=-I/home/jiangwei/calu/calulate/trousers-0.3.14/src/include --with-openssl=/home/jiangwei/dpi_engine/sdk_sys/linux/embedded_rootfs/octeon-rootfs/usr LDFLAGS=-L/home/jiangwei/calu/calulate/trousers-0.3.14/src/tspi/.libs
 
+7)compile nationz tpm_tool
+
+将configure文件中的下面一段脚本注释掉
+if test "x$ac_cv_lib_tspi_Tspi_Context_Create" = xyes; then :
+  TSS_LIB="1"
+else
+  as_fn_error $? "tss lib not found: libtspi.so" "$LINENO" 5
+fi
+
+./configure --host=mips64-octeon-linux  CC=mips64-octeon-linux-gnu-gcc  CFLAGS=-I/home/jiangwei/calu/calulate/code_from_nationz/tcmtool-Linux_Redhat6.2/tcmtool/svn/tsm/src/include --with-openssl=/home/jiangwei/dpi_engine/sdk_sys/linux/embedded_rootfs/octeon-rootfs/usr LDFLAGS=-L/home/jiangwei/calu/calulate/code_from_nationz/tcmtool-Linux_Redhat6.2/tcmtool/svn/tsm/src/tspi/.libs
+
+
+
+
+
+
   executable tools hidde in the fold .libs/
