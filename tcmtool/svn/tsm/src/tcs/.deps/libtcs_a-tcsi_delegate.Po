@@ -1,0 +1,169 @@
+libtcs_a-tcsi_delegate.o libtcs_a-tcsi_delegate.o: tcsi_delegate.c \
+  /usr/include/stdlib.h /usr/include/features.h /usr/include/sys/cdefs.h \
+  /usr/include/bits/wordsize.h /usr/include/gnu/stubs.h \
+  /usr/include/gnu/stubs-64.h \
+  /usr/lib/gcc/x86_64-redhat-linux/4.1.2/include/stddef.h \
+  /usr/include/sys/types.h /usr/include/bits/types.h \
+  /usr/include/bits/typesizes.h /usr/include/time.h /usr/include/endian.h \
+  /usr/include/bits/endian.h /usr/include/sys/select.h \
+  /usr/include/bits/select.h /usr/include/bits/sigset.h \
+  /usr/include/bits/time.h /usr/include/sys/sysmacros.h \
+  /usr/include/bits/pthreadtypes.h /usr/include/alloca.h \
+  /usr/include/stdio.h /usr/include/libio.h /usr/include/_G_config.h \
+  /usr/include/wchar.h /usr/include/bits/wchar.h /usr/include/gconv.h \
+  /usr/lib/gcc/x86_64-redhat-linux/4.1.2/include/stdarg.h \
+  /usr/include/bits/stdio_lim.h /usr/include/bits/sys_errlist.h \
+  /usr/include/string.h ../include/trousers/tss.h \
+  ../include/tss/platform.h /usr/include/stdint.h \
+  ../include/tss/compat11b.h ../include/tss/tpm.h \
+  ../include/tss/tpm_error.h ../include/tss/tpm_ordinal.h \
+  ../include/tss/tss_error_basics.h ../include/tss/tddl_error.h \
+  ../include/tss/tss_error.h ../include/tss/tcs_typedef.h \
+  ../include/tss/tss_structs.h ../include/tss/tss_typedef.h \
+  ../include/tss/tcs_structs.h ../include/tss/tcs_error.h \
+  ../include/tss/tcs.h ../include/tss/tcs_defines.h \
+  ../include/tss/tddlapi_error.h ../include/tss/tss_defines.h \
+  ../include/tss/tddli.h ../include/tss/tspi.h \
+  ../include/trousers_types.h ../include/tcs_utils.h \
+  /usr/include/assert.h ../include/threads.h /usr/include/pthread.h \
+  /usr/include/sched.h /usr/include/bits/sched.h /usr/include/signal.h \
+  /usr/include/bits/setjmp.h ../include/tcs_context.h \
+  ../include/tcs_tsp.h ../include/trousers_types.h ../include/tcslog.h \
+  /usr/include/syslog.h /usr/include/sys/syslog.h \
+  /usr/include/bits/syslog-path.h ../include/req_mgr.h
+
+/usr/include/stdlib.h:
+
+/usr/include/features.h:
+
+/usr/include/sys/cdefs.h:
+
+/usr/include/bits/wordsize.h:
+
+/usr/include/gnu/stubs.h:
+
+/usr/include/gnu/stubs-64.h:
+
+/usr/lib/gcc/x86_64-redhat-linux/4.1.2/include/stddef.h:
+
+/usr/include/sys/types.h:
+
+/usr/include/bits/types.h:
+
+/usr/include/bits/typesizes.h:
+
+/usr/include/time.h:
+
+/usr/include/endian.h:
+
+/usr/include/bits/endian.h:
+
+/usr/include/sys/select.h:
+
+/usr/include/bits/select.h:
+
+/usr/include/bits/sigset.h:
+
+/usr/include/bits/time.h:
+
+/usr/include/sys/sysmacros.h:
+
+/usr/include/bits/pthreadtypes.h:
+
+/usr/include/alloca.h:
+
+/usr/include/stdio.h:
+
+/usr/include/libio.h:
+
+/usr/include/_G_config.h:
+
+/usr/include/wchar.h:
+
+/usr/include/bits/wchar.h:
+
+/usr/include/gconv.h:
+
+/usr/lib/gcc/x86_64-redhat-linux/4.1.2/include/stdarg.h:
+
+/usr/include/bits/stdio_lim.h:
+
+/usr/include/bits/sys_errlist.h:
+
+/usr/include/string.h:
+
+../include/trousers/tss.h:
+
+../include/tss/platform.h:
+
+/usr/include/stdint.h:
+
+../include/tss/compat11b.h:
+
+../include/tss/tpm.h:
+
+../include/tss/tpm_error.h:
+
+../include/tss/tpm_ordinal.h:
+
+../include/tss/tss_error_basics.h:
+
+../include/tss/tddl_error.h:
+
+../include/tss/tss_error.h:
+
+../include/tss/tcs_typedef.h:
+
+../include/tss/tss_structs.h:
+
+../include/tss/tss_typedef.h:
+
+../include/tss/tcs_structs.h:
+
+../include/tss/tcs_error.h:
+
+../include/tss/tcs.h:
+
+../include/tss/tcs_defines.h:
+
+../include/tss/tddlapi_error.h:
+
+../include/tss/tss_defines.h:
+
+../include/tss/tddli.h:
+
+../include/tss/tspi.h:
+
+../include/trousers_types.h:
+
+../include/tcs_utils.h:
+
+/usr/include/assert.h:
+
+../include/threads.h:
+
+/usr/include/pthread.h:
+
+/usr/include/sched.h:
+
+/usr/include/bits/sched.h:
+
+/usr/include/signal.h:
+
+/usr/include/bits/setjmp.h:
+
+../include/tcs_context.h:
+
+../include/tcs_tsp.h:
+
+../include/trousers_types.h:
+
+../include/tcslog.h:
+
+/usr/include/syslog.h:
+
+/usr/include/sys/syslog.h:
+
+/usr/include/bits/syslog-path.h:
+
+../include/req_mgr.h:

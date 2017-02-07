@@ -1,0 +1,21 @@
+#
+# TCM device configuration
+#
+
+menu "Nationz TCM devices"
+
+config TCG_TCM
+	tristate "TCM Hardware Support"
+	depends on EXPERIMENTAL
+	---help---
+           Support for Nationz TCM .	 
+
+config TCG_TIS
+	tristate "TCM Interface Specification 1.2 Interface"
+	depends on TCG_TCM && PNPACPI
+	---help---
+           Support for Nationz TCM.
+	  
+
+endmenu
+

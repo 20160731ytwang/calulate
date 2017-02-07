@@ -1,0 +1,57 @@
+
+------------------------------------------------------------------------------
+		         
+	************TCM Driver For Linux****************
+		           
+------------------------------------------------------------------------------
+
+
+Driver Install 
+
+if Nationz TCM Pnp ID was declared in BIOS,please install driver according to
+the following steps:
+A.if you login your system with root user ,please take the follow steps
+  1.Open Terminal
+  2.type in :insmod tcm.ko
+  3.type in :insmod tcm_tis.ko
+B.if you login your system not with root user ,please take the follow steps
+  1.open Terminial
+  2.type in :su root
+  3.enter your password of root
+  4.type in:insmod tcm.ko
+  5.type in:insmod tcm_tis.ko
+
+if Nationz TCM Pnp ID was not declared in BIOS,please install driver according to
+the following steps:
+A.if you login your system with root user ,please take the follow steps
+  1.Open Terminal
+  2.type in :insmod tcm.ko
+  3.type in :insmod tcm_tis.ko force=1
+B.if you login your system not with root user ,please take the follow steps
+  1.open Terminial
+  2.type in :su root
+  3.enter your password of root
+  4.type in:insmod tcm.ko
+  5.type in:insmod tcm_tis.ko force=1
+
+------------------------------------------------------------------------------
+
+Check Install
+  A.Please enter "lsmod" command in terminal ,you will see "tcm" and "tcm_tis" module 
+  B.Please type ing "ls /dev" ,you will see "tcm0" node
+
+-------------------------------------------------------------------------------
+
+-------------------------------------------------------------------------------
+Test TCM driver and Chip
+if you login your system with root user,please take the follow steps:
+1.open Terminal
+2.type ./tcmtool and follow on screen help.
+if you login your system not with root user,please take the follow steps:
+1.open Terminal
+2.type in:su root
+3.enter your password of root
+4.type in ./tcmtool and follow on screen help
+-------------------------------------------------------------------------------
+
+note: Please remove the tpm(tpm_tis.ko,tpm.ko) before install tcm driver
