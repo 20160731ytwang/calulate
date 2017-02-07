@@ -12,7 +12,7 @@ extern "C" {
 #endif
 
 #ifndef uint32
-#define uint32 unsigned long int
+#define uint32 unsigned int
 #endif
 
 typedef struct
