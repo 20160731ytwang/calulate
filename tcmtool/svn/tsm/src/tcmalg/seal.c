@@ -4,10 +4,16 @@
 //#include <ntddk.h>
 #include <memory.h>
 #include <malloc.h>
-//#include <windows.h>
-#include <time.h>
 #include <stdlib.h>
+#include <time.h>
+#include "tcm_rand.h"
+#ifdef WIN32
+#include <windows.h>
+#else
 
+#include "stdafx.h"
+
+#endif
 
 #ifndef NULL
 #define NULL    0
@@ -15,9 +21,9 @@
 #endif
  
 typedef struct SealKey {
-	unsigned long t[520]; /* 512 rounded up to a multiple of 5 + 5 */
-	unsigned long s[265]; /* 256 rounded up to a multiple of 5 + 5 */
-	unsigned long r[265];  /* 16 rounded up to multiple of 5 */
+	unsigned int t[520]; /* 512 rounded up to a multiple of 5 + 5 */
+	unsigned int s[265]; /* 256 rounded up to a multiple of 5 + 5 */
+	unsigned int r[265];  /* 16 rounded up to multiple of 5 */
 }SEALKEY;
 
 #define ALG_OK 0
@@ -38,26 +44,26 @@ typedef struct SealKey {
 #define F4(x, y, z) ((x)^(y)^(z))
 
 /*
-ï¿½ï¿½ï¿½ï¿½Gï¿½ï¿½ï¿½ï¿½È«ï¿½ï¿½Ï£ï¿½ï¿½ï¿½ï¿½SHA-1ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ë£ºin
-ï¿½ï¿½ï¿½ë£ºiï¿½ï¿½32bitï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½h
+º¯ÊýG£º°²È«¹þÏ£º¯ÊýSHA-1µÄÑ¹Ëõº¯Êý
+ÊäÈë£ºin
+ÊäÈë£ºi£¨32bit£©
+Êä³ö£ºh
 */
 int g(unsigned char *in,int i,unsigned char *h)
 {
-	unsigned long h0;
-	unsigned long h1;
-	unsigned long h2;
-	unsigned long h3;
-	unsigned long h4;
-	unsigned long a;
-	unsigned long b;
-	unsigned long c;
-	unsigned long d;
-	unsigned long e;
+	unsigned int h0;
+	unsigned int h1;
+	unsigned int h2;
+	unsigned int h3;
+	unsigned int h4;
+	unsigned int a;
+	unsigned int b;
+	unsigned int c;
+	unsigned int d;
+	unsigned int e;
 	unsigned char *kp;
-	unsigned long w[80];
-	unsigned long temp;
+	unsigned int w[80];
+	unsigned int temp;
 
 	kp = in;
 	h0 = WORD(kp); kp += 4;
@@ -73,7 +79,7 @@ int g(unsigned char *in,int i,unsigned char *h)
 
 	/* step 2 */
 	for (i=16;i<80;i++)
-		w[i] = w[i-3]^w[i-8]^w[i-14]^w[i-16];			/* ï¿½ï¿½ï¿½ã·¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ */
+		w[i] = w[i-3]^w[i-8]^w[i-14]^w[i-16];			/* ÓëËã·¨ÃèÊö²»Í¬ */
 
 	/* step 3 */
 	a = h0;
@@ -130,14 +136,14 @@ int g(unsigned char *in,int i,unsigned char *h)
 	return (ALG_OK);
 }	
 
-/* ï¿½ï¿½ï¿½ï¿½gamma
-ï¿½ï¿½ï¿½ë£ºa
-ï¿½ï¿½ï¿½ë£ºi
-ï¿½ï¿½ï¿½Â±ï¿½ï¿½Åºï¿½ï¿½ï¿½gï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ìº¯ï¿½ï¿½ï¿½ï¿½
+/* º¯Êýgamma
+ÊäÈë£ºa
+ÊäÈë£ºi
+ÖØÐÂ±àÅÅº¯ÊýgµÄÊä³öÀ´¹¹Ôìº¯Êý¦£
 */
-unsigned long tcm_gamma(unsigned char *a, int i)
+unsigned int gamma(unsigned char *a,int i)
 {
-	unsigned long h[5];
+	unsigned int h[5];
 
 	(void) g(a, i/5, (unsigned char *)h);
 	return h[i % 5];
@@ -147,7 +153,7 @@ int  seal_init(unsigned char *key, SEALKEY  *result)
 {
  
 	int i;
-	unsigned long h[5];
+	unsigned int h[5];
      
  
 	if (result == NULL)
@@ -196,30 +202,30 @@ int  seal_init(unsigned char *key, SEALKEY  *result)
 	return (ALG_OK);
 }
 
-int seal( struct SealKey *key, unsigned int n, unsigned int L, unsigned long *out )
+int seal( struct SealKey *key, unsigned int n, unsigned int L, unsigned int *out )
 {
 	int i;
 	int j;
 	int l;
-	unsigned long a;
-	unsigned long b;
-	unsigned long c;
-	unsigned long d;
+	unsigned int a;
+	unsigned int b;
+	unsigned int c;
+	unsigned int d;
 	unsigned short p;
 	unsigned short q;
-	unsigned long n1;
-	unsigned long n2;
-	unsigned long n3;
-	unsigned long n4;
-	unsigned long *wp;
+	unsigned int n1;
+	unsigned int n2;
+	unsigned int n3;
+	unsigned int n4;
+	unsigned int *wp;
 
-	unsigned long counter = 0;
+	unsigned int counter = 0;
 
 	wp = out;
 
 	for (l=0;l<((int)L/8192 + 1);l++)
 	{
-		/* ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+		/* ³õÊ¼»¯¹ý³Ì */
 		a = n ^ key->r[4*l];
 		b = ROT8(n) ^ key->r[4*l+1];
 		c = ROT16(n) ^ key->r[4*l+2];
@@ -332,6 +338,14 @@ int seal( struct SealKey *key, unsigned int n, unsigned int L, unsigned long *ou
 }
 
 
+#ifndef WIN32
+unsigned int GetTickCount()
+{
+	struct timespec ts;
+	clock_gettime(CLOCK_MONOTONIC,&ts);                      //´Ë´¦¿ÉÒÔÅÐ¶ÏÒ»ÏÂ·µ»ØÖµ
+	return (ts.tv_sec*1000 + ts.tv_nsec/(1000*1000));
+}
+#endif
 
 int tcm_rng( unsigned int rng_len, 
 			 unsigned char *prngdata_out )
@@ -348,16 +362,17 @@ int tcm_rng( unsigned int rng_len,
 	unsigned char key[20];
 	SEALKEY  *tempKey= NULL;
 	int i;
-	//unsigned int dwTickCount = GetTickCount();
-	unsigned int dwTickCount = clock();
-
+#ifndef WIN32
+	unsigned int dwTickCount = GetTickCount();
+#else
+	DWORD dwTickCount = GetTickCount();
+#endif
 	tempKey = (SEALKEY *) malloc(sizeof(SEALKEY));
 	
     if (tempKey == NULL)
 		 return 1;
 
-	//dwTickCount = GetTickCount();
-	dwTickCount = clock();
+	dwTickCount = GetTickCount();
 
 	key[0]=(unsigned char)(dwTickCount&0x000000ff);
 	key[1]=(unsigned char)((dwTickCount&0x0000ff00)>>8);
@@ -389,7 +404,7 @@ int tcm_rng( unsigned int rng_len,
 	if (seal( tempKey,
 		      dwTickCount,//CurrentTime.HighPart, 
 			  rng_len, 
-			  (unsigned long *)prngdata_out)
+			  (unsigned int *)prngdata_out)
 			  ==0)
 	{
 		free(tempKey);

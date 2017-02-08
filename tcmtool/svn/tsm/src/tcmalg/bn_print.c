@@ -26,7 +26,7 @@ char *BN_bn2hex(const BIGNUM *a)
 		for (j=BN_BITS2-8; j >= 0; j-=8)
 			{
 			
-			v=((int)(a->d[i]>>(long)j))&0xff;
+			v=((int)(a->d[i]>>(int)j))&0xff;
 			if (z || (v != 0))
 				{
 				*(p++)=Hex[v>>4];
@@ -58,7 +58,7 @@ int BN_hex2bn(BIGNUM **bn, const char *a)
 	num=i+neg;
 	if (bn == NULL) return(num);
 
-	/* a is the start of the hex digits, and it is 'i' long */
+	/* a is the start of the hex digits, and it is 'i' int */
 	if (*bn == NULL)
 		{
 		if ((ret=BN_new()) == NULL) return(0);
@@ -123,7 +123,7 @@ int BN_dec2bn(BIGNUM **bn, const char *a)
 	num=i+neg;
 	if (bn == NULL) return(num);
 
-	/* a is the start of the digits, and it is 'i' long.
+	/* a is the start of the digits, and it is 'i' int.
 	 * We chop it into BN_DEC_NUM digits at a time */
 	if (*bn == NULL)
 		{
@@ -191,7 +191,7 @@ int BN_print(BIO *bp, const BIGNUM *a)
 		{
 		for (j=BN_BITS2-4; j >= 0; j-=4)
 			{
-			v=((int)(a->d[i]>>(long)j))&0x0f;
+			v=((int)(a->d[i]>>(int)j))&0x0f;
 			if (z || (v != 0))
 				{
 				if (BIO_write(bp,&(Hex[v]),1) != 1)

@@ -101,7 +101,7 @@ extern "C" {
 
 #ifdef OPENSSL_NO_STDIO
 #  define OPENSSL_NO_FP_API
-#endif 
+#endif */
 
 #if (defined(WINDOWS) || defined(MSDOS))
 
@@ -139,7 +139,7 @@ extern "C" {
 #  include <io.h>
 #  include <fcntl.h>
 
-#  define ssize_t long
+#  define ssize_t int
 
 #  if defined(WIN16) && defined(SSLEAY) && defined(_WINEXITNOPERSIST)
 #    define EXIT(n) _wsetexit(_WINEXITNOPERSIST)

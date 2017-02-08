@@ -16,12 +16,12 @@ typedef struct lhash_node_st
 	const void *data;
 	struct lhash_node_st *next;
 #ifndef OPENSSL_NO_HASH_COMP
-	unsigned long hash;
+	unsigned int hash;
 #endif
 	} LHASH_NODE;
 
 typedef int (*LHASH_COMP_FN_TYPE)(const void *, const void *);
-typedef unsigned long (*LHASH_HASH_FN_TYPE)(const void *);
+typedef unsigned int (*LHASH_HASH_FN_TYPE)(const void *);
 typedef void (*LHASH_DOALL_FN_TYPE)(const void *);
 typedef void (*LHASH_DOALL_ARG_FN_TYPE)(const void *, void *);
 
@@ -44,23 +44,23 @@ typedef struct lhash_st
 	unsigned int num_alloc_nodes;
 	unsigned int p;
 	unsigned int pmax;
-	unsigned long up_load; /* load times 256 */
-	unsigned long down_load; /* load times 256 */
-	unsigned long num_items;
+	unsigned int up_load; /* load times 256 */
+	unsigned int down_load; /* load times 256 */
+	unsigned int num_items;
 
-	unsigned long num_expands;
-	unsigned long num_expand_reallocs;
-	unsigned long num_contracts;
-	unsigned long num_contract_reallocs;
-	unsigned long num_hash_calls;
-	unsigned long num_comp_calls;
-	unsigned long num_insert;
-	unsigned long num_replace;
-	unsigned long num_delete;
-	unsigned long num_no_delete;
-	unsigned long num_retrieve;
-	unsigned long num_retrieve_miss;
-	unsigned long num_hash_comps;
+	unsigned int num_expands;
+	unsigned int num_expand_reallocs;
+	unsigned int num_contracts;
+	unsigned int num_contract_reallocs;
+	unsigned int num_hash_calls;
+	unsigned int num_comp_calls;
+	unsigned int num_insert;
+	unsigned int num_replace;
+	unsigned int num_delete;
+	unsigned int num_no_delete;
+	unsigned int num_retrieve;
+	unsigned int num_retrieve_miss;
+	unsigned int num_hash_comps;
 
 	int error;
 	} LHASH;
@@ -76,8 +76,8 @@ void *lh_delete(LHASH *lh, const void *data);
 void *lh_retrieve(LHASH *lh, const void *data);
 void lh_doall(LHASH *lh, LHASH_DOALL_FN_TYPE func);
 void lh_doall_arg(LHASH *lh, LHASH_DOALL_ARG_FN_TYPE func, void *arg);
-unsigned long lh_strhash(const char *c);
-unsigned long lh_num_items(const LHASH *lh);
+unsigned int lh_strhash(const char *c);
+unsigned int lh_num_items(const LHASH *lh);
 
 #ifdef  __cplusplus
 }

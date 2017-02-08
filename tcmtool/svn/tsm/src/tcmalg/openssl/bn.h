@@ -30,8 +30,8 @@ extern "C" {
 #endif
 
 #ifdef SIXTY_FOUR_BIT_LONG
-#define BN_ULLONG	unsigned long long
-#define BN_LONG		long
+#define BN_ULLONG	unsigned int
+#define BN_LONG		int
 #define BN_BITS		128
 #define BN_BYTES	8
 #define BN_BITS2	64
@@ -51,8 +51,8 @@ extern "C" {
 #ifdef SIXTY_FOUR_BIT
 #undef BN_LLONG
 #undef BN_ULLONG
-#define BN_ULONG	unsigned long long
-#define BN_LONG		long long
+#define BN_ULONG	unsigned int
+#define BN_LONG		int
 #define BN_BITS		128
 #define BN_BYTES	8
 #define BN_BITS2	64
@@ -74,8 +74,8 @@ extern "C" {
 #else
 #define BN_ULLONG	unsigned long long
 #endif
-#define BN_ULONG	unsigned long
-#define BN_LONG		long
+#define BN_ULONG	unsigned int
+#define BN_LONG		int
 #define BN_BITS		64
 #define BN_BYTES	4
 #define BN_BITS2	32
@@ -101,7 +101,7 @@ extern "C" {
 #ifndef BN_DIV2W
 #define BN_DIV2W
 #endif
-#define BN_ULLONG	unsigned long
+#define BN_ULLONG	unsigned int
 #define BN_ULONG	unsigned short
 #define BN_LONG		short
 #define BN_BITS		32
@@ -164,7 +164,7 @@ typedef struct bn_blinding_st
 	BIGNUM *A;
 	BIGNUM *Ai;
 	BIGNUM *mod; /* just a reference */
-	unsigned long thread_id; /* added in OpenSSL 0.9.6j and 0.9.7b;
+	unsigned int thread_id; /* added in OpenSSL 0.9.6j and 0.9.7b;
 				  * used only by crypto/rsa/rsa_eay.c, rsa_lib.c */
 	} BN_BLINDING;
 

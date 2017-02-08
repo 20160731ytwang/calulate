@@ -2,7 +2,7 @@
 File	:ec_encrypt.c 
 Author	:linyang
 Date	:11/21/2006
-comment :ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨
+comment :¹ú±êËã·¨
 ******************************************/
 
 #include "openssl/bn.h"
@@ -17,15 +17,15 @@ comment :ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨
 
 
 /*
-ï¿½ï¿½ï¿½ï¿½ECï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ã·¨
-ï¿½ï¿½ï¿½Ü£ï¿½Êµï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½Ï¢msgï¿½ï¿½ï¿½Ü£ï¿½ï¿½Ñ¼ï¿½ï¿½Üºï¿½ï¿½ï¿½ï¿½ï¿½Ï¢cipherï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½B
-ï¿½ï¿½ï¿½í¹íº¼ï¿½ï¿½Üºï¿½ï¿½ï¿½ï¿½ï¿½Ï¢cipher
-ï¿½ï¿½ï¿½ë£ºgroupï¿½ï¿½ï¿½ï¿½ï¿½p,a,b,N
-ï¿½ï¿½ï¿½ë£ºbasepoint G(Gx,Gy)
-ï¿½ï¿½ï¿½ë£ºBï¿½Ä¹ï¿½Ô¿Pb
-ï¿½ï¿½ï¿½ë£ºï¿½ï¿½Ï¢msg
-ï¿½ï¿½ï¿½ë£ºï¿½ï¿½Ï¢msgï¿½Ä³ï¿½ï¿½ï¿½msgLen
-ï¿½ï¿½ï¿½ë£ºstaï¿½Ëµï¿½macï¿½ï¿½Ö·
+»ùÓÚECµÄ¼ÓÃÜËã·¨
+¹¦ÄÜ£ºÊµÌåA¶ÔÏûÏ¢msg¼ÓÃÜ£¬°Ñ¼ÓÃÜºóµÄÐÅÏ¢cipher·¢¸øÊµÌåB
+Êä³ö£º¼ÓÃÜºóµÄÐÅÏ¢cipher
+ÊäÈë£ºgroup£¬°üÀ¨p,a,b,N
+ÊäÈë£ºbasepoint G(Gx,Gy)
+ÊäÈë£ºBµÄ¹«Ô¿Pb
+ÊäÈë£ºÏûÏ¢msg
+ÊäÈë£ºÏûÏ¢msgµÄ³¤¶ÈmsgLen
+ÊäÈë£ºsta¶ËµÄmacµØÖ·
 */
 int ECC_Encrypt(unsigned char *cipher,const EC_GROUP *group,const EC_POINT *G,const EC_POINT *Pb,unsigned char *msg, const int msgLen)
 {
@@ -40,15 +40,15 @@ int ECC_Encrypt(unsigned char *cipher,const EC_GROUP *group,const EC_POINT *G,co
 	unsigned char mac[HASH_NUMBITS/8];
 	int iret;
 	int i;
-	/* x2||M||y2 ï¿½Ä³ï¿½ï¿½ï¿½ */
+	/* x2||M||y2 µÄ³¤¶È */
 	const int hLen = g_uNumbits/8 + msgLen + g_uNumbits/8;
 	//
-	unsigned char *pTemp_k;	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	unsigned char *pTemp_k;	/* Ëæ»úÊý */
 
 	//
 	BN_CTX *ctx= BN_CTX_new();
 
-	/* ï¿½ï¿½ï¿½é¹«Ô¿ï¿½Ç·ï¿½Îªï¿½ï¿½ */
+	/* ¼ì²é¹«Ô¿ÊÇ·ñÎª¿Õ */
 	if (Pb == NULL)
 	{
 		BN_CTX_free(ctx);
@@ -74,9 +74,9 @@ int ECC_Encrypt(unsigned char *cipher,const EC_GROUP *group,const EC_POINT *G,co
 	pTemp_k = (unsigned char*)malloc(RANDOM_LEN);
 	//
 	pstr_xy = (unsigned char*)malloc(2*(g_uNumbits/8));
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Õ¼ä£¬ï¿½ï¿½kdfï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò¼ï¿½ï¿½ï¿½
+	//·ÖÅäÃ÷ÎÄ¿Õ¼ä£¬×ökdf²Ù×÷²¢ÇÒ¼ÓÃÜ
 	pstr_t = (unsigned char *)malloc(msgLen);
-	//ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ä£¬×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hashï¿½ï¿½ï¿½ï¿½
+	//·ÖÅä¿Õ¼ä£¬×¼±¸½øÐÐhashÔËËã
 	// x2||M||y2
 	pstr_h = (unsigned char *)malloc(hLen);
 	//
@@ -91,17 +91,17 @@ int ECC_Encrypt(unsigned char *cipher,const EC_GROUP *group,const EC_POINT *G,co
 		return 1;
 	}
 
-	EC_GROUP_get_order(group,N);	/* ï¿½ï¿½ */
-//	BN_copy(p,&group->p);			/* pÎªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	EC_GROUP_get_order(group,N);	/* ½× */
+//	BN_copy(p,&group->p);			/* pÎª´óËØÊý */
 
 	/* A1 */
-	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	/* ²úÉúËæ»úÊý */
 step1:
 	tcm_rng( g_uNumbits, pTemp_k );
 	BN_bin2bn(pTemp_k, g_uNumbits/8, k);	
-	/* È·Ê¹kï¿½ï¿½ï¿½ï¿½[1, N-1] */
+	/* È·Ê¹kÊôÓÚ[1, N-1] */
 	BN_nnmod(k, k, N, ctx);			
-	/* ï¿½ï¿½ï¿½ï»¹ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½Ç·ï¿½Îª0 */
+	/* ÕâÀï»¹±ØÐëÅÐ¶ÏÊÇ·ñÎª0 */
 	if( BN_is_zero(k) )
 	{
 #ifdef TEST
@@ -126,7 +126,7 @@ step1:
 #endif
 
 	/* A2 */
-	/* ï¿½ï¿½ï¿½ï¿½ C1 = [k]G = (x1, y1) */
+	/* ¼ÆËã C1 = [k]G = (x1, y1) */
 	EC_POINT_mul(group,Pt,k,G);
 	EC_POINT_affine2gem(group,Pt,Pt);
 	EC_POINT_get_point(Pt,x1,y1,z2);
@@ -147,16 +147,16 @@ step1:
 
 	/* A3 */
 	/*******************************/
-	/* ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	/* µÃµ½ÓàÒò×Ó */
 	EC_GROUP_get_cofactor(group, h);
 
-	/* ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ */
+	/* µÃµ½ÓàÒò×ÓµÄÄæ */
 	BN_mod_inverse(h1, h, N, ctx);
 	BN_nnmod(h1,h1,N,ctx);
 
 #ifdef TEST
 {
-	//ï¿½ï¿½ï¿½ï¿½ h1ï¿½Ç·ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½
+	//¼ì²é h1ÊÇ·ñÊÇhµÄÄæ
 	char *str;
 
 	str = BN_bn2hex(h);
@@ -172,25 +172,25 @@ step1:
 }
 #endif
 
-	/* ï¿½ï¿½ï¿½ï¿½ [h]Pb */
+	/* ¼ÆËã [h]Pb */
 	EC_POINT_mul(group,Pt,h,Pb);
 
-	/* ï¿½ï¿½ï¿½ï¿½[k*h^(-1)] */
-	/* ï¿½ï¿½Ê±Ê¹ï¿½ï¿½ctemp */
+	/* ¼ÆËã[k*h^(-1)] */
+	/* ÁÙÊ±Ê¹ÓÃctemp */
 	BN_mul(ctemp,k,h1,ctx);
 
-	/* ï¿½ï¿½ï¿½ï¿½ [k*h^(-1)][h]Pb */
+	/* ¼ÆËã [k*h^(-1)][h]Pb */
 	EC_POINT_mul(group,Pt,ctemp,Pt);
 	EC_POINT_affine2gem(group,Pt,Pt);
 	EC_POINT_get_point(Pt,x2,y2,z2);
 	/*******************************/
-	/* ï¿½Å»ï¿½ï¿½ã·¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hÎª1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	/* ÓÅ»¯Ëã·¨£¬ÓÃÓÚhÎª1µÄÇé¿ö */
 	/* S = [k*h^(-1)][h]Pb = (x2,y2) */
 //	EC_POINT_mul(group,Pt,k,Pb);
 //	EC_POINT_affine2gem(group,Pt,Pt);
 //	EC_POINT_get_point(Pt,x2,y2,z2);
 	/*******************************/
-	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ã£¬ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½ */
+	/* Èç¹ûÊÇÎÞÇîÔ¶µã£¬·µ»ØÊ§°Ü */
 	if( EC_POINT_is_at_infinity(group, Pt) )
 	{
 		iret = 1;
@@ -242,11 +242,11 @@ step1:
 }
 #endif
 
-	/* ï¿½ï¿½ï¿½ï¿½tÎªÈ«0ï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½A1 */
+	/* Èç¹ûtÎªÈ«0±ÈÌØ´®£¬·µ»ØA1 */
 	BN_bin2bn(pstr_t, msgLen, z2);
 	if( BN_is_zero(z2) )
 	{
-		//ï¿½Í·Å¼ï¿½ï¿½Üºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Õ¼ï¿½
+		//ÊÍ·Å¼ÓÃÜºóµÄÃÜÎÄ¿Õ¼ä
 #ifdef TEST
 		printf("pT is zeor\n");
 #endif
@@ -262,7 +262,7 @@ step1:
 #endif
 
 	/* A5 */
-	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ C2=M^t */
+	/* ½øÐÐÒì»ò¼ÆËã C2=M^t */
 	for(i=0;i<msgLen;i++)
 	{
 		pstr_t[i] ^= (unsigned char)msg[i];
@@ -279,7 +279,7 @@ step1:
 #endif
 
 	/* A6 */
-	/* ï¿½ï¿½ï¿½ï¿½C3 */
+	/* ¼ÆËãC3 */
 	/* C3 = Hash(x2||M||y2) */
 	BN_bin2bn(msg, msgLen, m);
 	BN_copy(ctemp,x2);
@@ -333,7 +333,7 @@ step1:
 
 
 	/* A7 */
-	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ C=C1||C2||C3 */
+	/* Êä³öÃÜÎÄ C=C1||C2||C3 */
 
 	BN_hex2bn(&pc,"4");
 	//

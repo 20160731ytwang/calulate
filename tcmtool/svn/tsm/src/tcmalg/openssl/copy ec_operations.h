@@ -7,7 +7,7 @@
 extern "C" {
 #endif
 
-#define BN_ULONG	unsigned long
+#define BN_ULONG	unsigned int
 
 typedef struct bignum_st
 	{

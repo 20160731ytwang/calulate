@@ -2,19 +2,22 @@
 File	:calculate_hash.c 
 Author	:linyang
 Date	:11/21/2006
-comment :ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨
+comment :¹ú±êËã·¨
 ******************************************/
 
-#include <memory.h>
-#include <malloc.h>
+#include <stdlib.h>
+#include <string.h>
 #include "openssl/bn.h"
 #include "openssl/bnEx.h"
 #include "openssl/crypto.h"
 #include "tcm_hash.h"
 #include "tcm_bn.h"
-//#include <Winsock2.h>
-#include <arpa/inet.h>
 
+#ifdef WIN32
+#include <Winsock2.h>
+#else
+#include <netinet/in.h>
+#endif
 
 typedef unsigned char BYTE;
 
@@ -23,15 +26,15 @@ typedef unsigned char BYTE;
 #endif
 
 #ifndef uint32
-#define uint32 unsigned long int
+#define uint32 unsigned int
 #endif
 
 /*
-ï¿½ï¿½ï¿½ï¿½Zaï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½256bitsï¿½ï¿½HASHï¿½ã·¨
-ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½Ý£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½hashï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hashï¿½ï¿½ï¿½ï¿½ Digest
-ï¿½ï¿½ï¿½ë£ºï¿½Ã»ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½userid, ï¿½Ã»ï¿½ï¿½ï¿½Ê¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½userIDLen, 
-ï¿½ï¿½ï¿½ë£ºï¿½ï¿½Ô¿pPubkey_in, ï¿½ï¿½Ô¿ï¿½ï¿½ï¿½ï¿½pubkeyLen_in,
+¼ÆËãZa£¬×ÜÊÇÊ¹ÓÃ256bitsµÄHASHËã·¨
+¸ù¾ÝÓÃ»§Êý¾Ý£¬¼ÆËãÓÃ»§µÄhashÊý¾Ý
+Êä³ö£ºhashÊý¾Ý Digest
+ÊäÈë£ºÓÃ»§±êÊ¶´®userid, ÓÃ»§±êÊ¶´®³¤¶ÈuserIDLen, 
+ÊäÈë£º¹«Ô¿pPubkey_in, ¹«Ô¿³¤¶ÈpubkeyLen_in,
 */
 int tcm_get_usrinfo_value(
 					   unsigned char *userID, unsigned short int userIDLen, 
@@ -39,9 +42,9 @@ int tcm_get_usrinfo_value(
 					   unsigned char digest[HASH_NUMBITS/8])
 {
 	int iret;
-	/* ECCï¿½ï¿½ï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½aï¿½ï¿½bï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½xGï¿½ï¿½yG */
+	/* ECCµÄÏà¹Ø²ÎÊý£ºÏµÊýa£¬b£¬»ùµã×ø±êxG£¬yG */
 	BIGNUM *a, *b, *xG, *yG, *zG;
-	BIGNUM *p;	/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½*/
+	BIGNUM *p;	/*ÕâÀïÎÞÓÃ*/
 	//
 	unsigned char	ENTL[2];
 	unsigned char*	pstr_a=NULL;
@@ -53,12 +56,12 @@ int tcm_get_usrinfo_value(
 	uint32 uZlen = 0;
 	int iPos=0;
 
-	/* ï¿½ï¿½ï¿½é¹«Ô¿pPubkey_inï¿½Ç·ï¿½Îªï¿½ï¿½ */
+	/* ¼ì²é¹«Ô¿pPubkey_inÊÇ·ñÎª¿Õ */
 	if (pPubkey_in ==NULL)
 	{
 		return 1;
 	}
-	/* ï¿½ï¿½ï¿½é¹«Ô¿pubkeyLen_inï¿½ï¿½ï¿½ï¿½ */
+	/* ¼ì²é¹«Ô¿pubkeyLen_in³¤¶È */
 	if (pubkeyLen_in != PUBKEY_LEN)
 	{
 		return 1;
@@ -169,30 +172,29 @@ int tcm_get_usrinfo_value(
 	  return 1;
 	}
 
-	/* ï¿½Ãµï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ï¿½Èºï¿½ï¿½ï¿½Ø²ï¿½ï¿½ï¿½P */
+	/* µÃµ½ÍÖÔ²ÇúÏßÈºÏà¹Ø²ÎÊýP */
 	EC_GROUP_get_curve_GFp(group,p,a,b);
 	EC_POINT_get_point(G, xG, yG, zG);
 
 
-	//ï¿½Ãµï¿½a,bï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+	//µÃµ½a,bµÄ×Ö·û´®
 	tcm_bn_bn2bin(a, g_uNumbits/8, pstr_a);
 	tcm_bn_bn2bin(b, g_uNumbits/8, pstr_b);
 
-	//ï¿½Ãµï¿½Gï¿½ï¿½ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½
+	//µÃµ½GµãµÄ×Ö·û´®
 	tcm_bn_bn2bin(xG, g_uNumbits/8, pstr_xG);
 	tcm_bn_bn2bin(yG, g_uNumbits/8, pstr_yG);
 
 	//
 	{
-		//const u_short userIDBitsLen = userIDLen*8;
-		unsigned short userIDBitsLen = userIDLen*8;
-		*((unsigned short*)ENTL) = htons(userIDBitsLen);
+		const u_short userIDBitsLen = userIDLen*8;
+		*((u_short*)ENTL) = htons(userIDBitsLen);
 	}
 
-	//ï¿½ï¿½ï¿½ï¿½ZAï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//¼ÆËãZAµÄÁ÷³Ì
 	// ENTL||ID||a||b||xG||yG||xA||yA
 	uZlen = 2	// sizeof(ENTL)
-		 + userIDLen	// IDï¿½Ä³ï¿½ï¿½ï¿½
+		 + userIDLen	// IDµÄ³¤¶È
 		 + 6 * g_uNumbits/8;	// a||b||xG||yG||xA||yA
 
 	pstr_Z = (BYTE*)malloc(uZlen);
@@ -238,7 +240,7 @@ int tcm_get_usrinfo_value(
 #endif
 	
 
-	//ï¿½ï¿½ï¿½ï¿½ZA
+	//¼ÆËãZA
 	iret = tcm_sch_256( uZlen, pstr_Z, digest);
 	//
 	free(pstr_Z);
@@ -262,17 +264,17 @@ end:
 	return iret;
 }
 
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½hash */
+/* ¼ÆËãÏûÏ¢µÄhash */
 int tcm_get_message_hash(unsigned char *msg, unsigned int msgLen,  
 					   unsigned char *userID, unsigned short int userIDLen, 
 					   unsigned char *pPubkey_in, unsigned int pubkeyLen_in,
 					   unsigned char *pDigest,
 					   unsigned int *puDigestLen)
 {
-	// ï¿½ï¿½ï¿½ï¿½Öµ
+	// ·µ»ØÖµ
 	int iret;
 	//
-	unsigned char schsum_Z[HASH_NUMBITS/8];	// ï¿½ï¿½ï¿½ï¿½Zaï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½256hashï¿½ã·¨
+	unsigned char schsum_Z[HASH_NUMBITS/8];	// ¼ÆËãZa£¬×ÜÊÇÊ¹ÓÃ256hashËã·¨
 	//
 	BYTE *pstr_M=NULL;
 	uint32 uMlen = 0;
@@ -286,7 +288,7 @@ int tcm_get_message_hash(unsigned char *msg, unsigned int msgLen,
 	}
 
 	//
-	//ï¿½ï¿½ï¿½ï¿½Mï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//¼ÆËãMµÄÁ÷³Ì
 	// ZA||M
 	uMlen = HASH_NUMBITS/8+msgLen;
 	pstr_M = (BYTE*)malloc(uMlen);
@@ -303,7 +305,7 @@ int tcm_get_message_hash(unsigned char *msg, unsigned int msgLen,
 	}
 	//
 
-	//ï¿½ï¿½ï¿½ï¿½M
+	//¼ÆËãM
 	if( g_uSCH_Numbits == 256 )
 	{
 		iret = tcm_sch_256( uMlen, pstr_M, pDigest);

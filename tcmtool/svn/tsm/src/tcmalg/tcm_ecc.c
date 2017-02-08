@@ -14,17 +14,17 @@ Date	:11/21/2006
 #include <string.h>
 
 /*
-ï¿½ï¿½ï¿½ï¿½ECï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ã·¨
-ï¿½ï¿½ï¿½ë£ºï¿½ï¿½ï¿½ï¿½pPlaintext_inï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½plaintextLen_in
-      ï¿½Ô·ï¿½ï¿½ï¿½Ô¿pPubkey_in, ï¿½Ô·ï¿½ï¿½ï¿½Ô¿ï¿½ï¿½ï¿½ï¿½pubkeyLen_in
-      staï¿½ï¿½macï¿½ï¿½Ö·pstamac
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pCipher_outï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½pCipherLen_out
-ï¿½ï¿½ï¿½Ø£ï¿½ï¿½ï¿½ï¿½Ü³É¹ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»ï¿½1
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+»ùÓÚECµÄ¼ÓÃÜËã·¨
+ÊäÈë£ºÃ÷ÎÄpPlaintext_in£¬Ã÷ÎÄ³¤¶ÈplaintextLen_in
+      ¶Ô·½¹«Ô¿pPubkey_in, ¶Ô·½¹«Ô¿³¤¶ÈpubkeyLen_in
+      sta¶ËmacµØÖ·pstamac
+Êä³ö£ºÃÜÎÄpCipher_out£¬ÃÜÎÄ³¤¶ÈpCipherLen_out
+·µ»Ø£º¼ÓÃÜ³É¹¦·µ»Ø0£¬·ñÔò·µ»Ø1
+ÆäËü£º
 */
 int tcm_ecc_encrypt(unsigned char *pPlaintext_in, unsigned int plaintextLen_in, unsigned char *pPubkey_in, unsigned int pubkeyLen_in, unsigned char *pCipher_out, unsigned int *pCipherLen_out)
 {
-//ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
+//·µ»ØµÄÃÜÎÄ³¤¶È
 #define CIPHER_LEN (1+2*g_uNumbits/8 + plaintextLen_in+ HASH_NUMBITS/8)
 
 	unsigned int i;
@@ -36,13 +36,13 @@ int tcm_ecc_encrypt(unsigned char *pPlaintext_in, unsigned int plaintextLen_in, 
 	EC_POINT	*P;
 
 
-	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ð§ */
+	/* ¼ì²éÃ÷ÎÄÊÇ·ñÓÐÐ§ */
 	if( (pPlaintext_in==NULL) || (plaintextLen_in <= 0) )
 	{
 		return 1;
 	}
 
-	/*ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿Õ¼ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ð§*/
+	/*¼ì²éÃÜÎÄ¿Õ¼äÊÇ·ñÓÐÐ§*/
 	if( pCipher_out==NULL )
 	{
 		return 1;
@@ -53,25 +53,25 @@ int tcm_ecc_encrypt(unsigned char *pPlaintext_in, unsigned int plaintextLen_in, 
 	}
 
 
-	/* ï¿½ï¿½ï¿½é¹«Ô¿pubkeyLen_inï¿½ï¿½ï¿½ï¿½ */
+	/* ¼ì²é¹«Ô¿pubkeyLen_in³¤¶È */
 	if (pubkeyLen_in != PUBKEY_LEN)
 	{
 		//uiPrintf("****pubkeyLen_in\n");
 		return 1;
 	}
-	/* ï¿½ï¿½ï¿½é¹«Ô¿pPubkey_inï¿½Ç·ï¿½Îªï¿½ï¿½ */
+	/* ¼ì²é¹«Ô¿pPubkey_inÊÇ·ñÎª¿Õ */
 	if (pPubkey_in ==NULL)
 	{
 		//uiPrintf("*****pPubkey_in ==NULL\n");
 		return 1;
 	}
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
+	//Èç¹û²»ÊÇ·ÇÑ¹ËõÐÎÊ½£¬·µ»ØÊ§°Ü
 	if( pPubkey_in[0] != 0x04 )
 	{
 		return 1;
 	}
 
-	//ÎªÇ©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
+	//ÎªÇ©Ãû·ÖÅäÄÚ´æ
 	pstr_r=(unsigned char*)malloc(g_uNumbits/8);
 	pstr_s=(unsigned char*)malloc(g_uNumbits/8);
 	//
@@ -86,33 +86,33 @@ int tcm_ecc_encrypt(unsigned char *pPlaintext_in, unsigned int plaintextLen_in, 
 		return 1;
 	}
 
-	/* ï¿½ï¿½ï¿½ï¿½Ô¿ï¿½Ö·ï¿½ï¿½ï¿½(48ï¿½Ö½ï¿½)ï¿½Ö³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(24, 24)ï¿½Ö½ï¿½ */
+	/* ½«¹«Ô¿×Ö·û´®(48×Ö½Ú)·Ö³ÉÁ½²¿·Ö(24, 24)×Ö½Ú */
 	for (i = 0; i < (g_uNumbits/8); i++) {
 		pstr_r[i] = pPubkey_in[1+i];
 		pstr_s[i] = pPubkey_in[1+g_uNumbits/8 + i];
 	}
 
-	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(g_uNumbits/8, g_uNumbits/8)ï¿½Ö½Ú´ï¿½×ªï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ */
+	/* ½«Á½²¿·Ö(g_uNumbits/8, g_uNumbits/8)×Ö½Ú´®×ª»»Îª´óÊý */
 	BN_bin2bn(pstr_r, g_uNumbits/8, x);
 	BN_bin2bn(pstr_s, g_uNumbits/8, y);
 
 	BN_hex2bn(&one, "1");
 	
-	/* ï¿½ï¿½ï¿½É¹ï¿½Ô¿ï¿½ï¿½P */
+	/* Éú³É¹«Ô¿µãP */
 	EC_POINT_set_point(P, x, y, one);
 	if (!(ECC_Encrypt(pCipher_out, group, G, P, pPlaintext_in, plaintextLen_in)))
 	{
-		/* ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ */
+		/* ÃÜÎÄ³¤¶È */
 		*pCipherLen_out = CIPHER_LEN;
 #ifdef TEST_FIXED
 	{
-		//ï¿½ï¿½ï¿½ï¿½Îªï¿½Ì¶ï¿½19ï¿½ï¿½ï¿½Ö½ï¿½
+		//Ã÷ÎÄÎª¹Ì¶¨19¸ö×Ö½Ú
 		*pCipherLen_out = (1+2*g_uNumbits/8 + 19+ HASH_NUMBITS/8);
 	}
 #endif
 
 
-		//ï¿½Í·ï¿½ï¿½Ú´ï¿½
+		//ÊÍ·ÅÄÚ´æ
 		free(pstr_r);
 		free(pstr_s);
 		//
@@ -125,7 +125,7 @@ int tcm_ecc_encrypt(unsigned char *pPlaintext_in, unsigned int plaintextLen_in, 
 	}
 	else
 	{
-		//ï¿½Í·ï¿½ï¿½Ú´ï¿½
+		//ÊÍ·ÅÄÚ´æ
 		free(pstr_r);
 		free(pstr_s);
 		//
@@ -139,58 +139,58 @@ int tcm_ecc_encrypt(unsigned char *pPlaintext_in, unsigned int plaintextLen_in, 
 }
 
 /*
-ï¿½ï¿½ï¿½ï¿½ECï¿½Ä½ï¿½ï¿½ï¿½ï¿½ã·¨
-ï¿½ï¿½ï¿½ë£ºï¿½ï¿½ï¿½ï¿½pCipher_inï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½cipherLen_in
-      Ë½Ô¿pPrikey_in , Ë½Ô¿ï¿½ï¿½ï¿½ï¿½prikeyLen_in
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pPlaintext_outï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½pPlaintextLen_out
-ï¿½ï¿½ï¿½Ø£ï¿½ï¿½ï¿½ï¿½Ü³É¹ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»ï¿½1
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+»ùÓÚECµÄ½âÃÜËã·¨
+ÊäÈë£ºÃÜÎÄpCipher_in£¬ÃÜÎÄ³¤¶ÈcipherLen_in
+      Ë½Ô¿pPrikey_in , Ë½Ô¿³¤¶ÈprikeyLen_in
+Êä³ö£ºÃ÷ÎÄpPlaintext_out£¬Ã÷ÎÄ³¤¶ÈpPlaintextLen_out
+·µ»Ø£º½âÃÜ³É¹¦·µ»Ø0£¬·ñÔò·µ»Ø1
+ÆäËü£º 
 */
 int tcm_ecc_decrypt(unsigned char *pCipher_in, unsigned int cipherLen_in, unsigned char *pPrikey_in, unsigned int prikeyLen_in, unsigned char *pPlaintext_out, unsigned int *pPlaintextLen_out)
 {
 
-//ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
+//·µ»ØµÄÃ÷ÎÄ³¤¶È
 #define PLAIN_LEN (cipherLen_in - (1+2*g_uNumbits/8 + HASH_NUMBITS/8) )
 
 	BIGNUM *skey;
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ð§
+	//¼ì²éÃ÷ÎÄÖ¸ÕëÊÇ·ñÓÐÐ§
 	if( pPlaintext_out == NULL )
 	{
 		return 1;
 	}
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ï¸ï¿½
+	//¼ì²éÃ÷ÎÄ³¤¶ÈÊÇ·ñºÏ¸ñ
 	if( *pPlaintextLen_out < PLAIN_LEN )
 	{
 		return 1;
 	}
 	//
-	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Îªï¿½ï¿½ */
+	/* ¼ì²éÃÜÎÄÊÇ·ñÎª¿Õ */
 	if (pCipher_in == NULL)
 	{
 		return 1;
 	}
 
-	//ï¿½ï¿½ï¿½ï¿½Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½Ê½
+	//ÕâÀïÖ»´¦Àí·ÇÑ¹ËõÐÎÊ½
 	if (pCipher_in[0] != 04)
 	{
 		return 1;
 	}
 
 
-	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½cipherLen_inï¿½ï¿½ï¿½ï¿½ */
-	/* ï¿½ï¿½ï¿½ï¿½ï¿½ÕºÃµï¿½ï¿½ï¿½1+2*g_uNumbits/8 + HASH_NUMBITS/8ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	/* ¼ì²éÃÜÎÄcipherLen_in³¤¶È */
+	/* Èç¹û¸ÕºÃµÈÓÚ1+2*g_uNumbits/8 + HASH_NUMBITS/8£¬ÔòÎÞÃ÷ÎÄ */
 	if( cipherLen_in< (1+2*g_uNumbits/8 + HASH_NUMBITS/8) )
 	{
 		return 1;
 	}
 
 
-	/* ï¿½ï¿½ï¿½ï¿½Ë½Ô¿ï¿½Ç·ï¿½Îªï¿½ï¿½ */
+	/* ¼ì²éË½Ô¿ÊÇ·ñÎª¿Õ */
 	if (pPrikey_in == NULL)
 	{
 		return 1;
 	}
-	/* ï¿½ï¿½ï¿½ï¿½Ë½Ô¿prikeyLen_inï¿½ï¿½ï¿½ï¿½ */
+	/* ¼ì²éË½Ô¿prikeyLen_in³¤¶È */
 	if (prikeyLen_in != g_uNumbits/8)
 	{
 		return 1;
@@ -203,7 +203,7 @@ int tcm_ecc_decrypt(unsigned char *pCipher_in, unsigned int cipherLen_in, unsign
       	return 1;
 	}
 
-	/* ×ªï¿½ï¿½Ë½Ô¿ï¿½Ö·ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ */
+	/* ×ª»»Ë½Ô¿×Ö·û´®Îª´óÊý */
 	BN_bin2bn(pPrikey_in, g_uNumbits/8, skey);
 	if (!(ECC_Decrypt(pPlaintext_out, group, pCipher_in, cipherLen_in, skey)))
 	{
@@ -220,14 +220,14 @@ int tcm_ecc_decrypt(unsigned char *pCipher_in, unsigned int cipherLen_in, unsign
 }
 
 /*
-ï¿½ï¿½ï¿½ï¿½ECï¿½ï¿½Ô²ï¿½ï¿½ï¿½ßµï¿½ï¿½ï¿½ï¿½ï¿½Ç©ï¿½ï¿½ï¿½ã·¨
-ï¿½ï¿½ï¿½ë£ºï¿½ï¿½Ç©ï¿½ï¿½ÕªÒªÖµpDigestï¿½ï¿½ï¿½ï¿½Ç©ï¿½ï¿½ÕªÒªÖµï¿½ï¿½ï¿½ï¿½uDigestLen
-      Ë½Ô¿pPrikey_inï¿½ï¿½Ë½Ô¿ï¿½ï¿½ï¿½ï¿½prikeyLen_in
-      staï¿½ï¿½macï¿½ï¿½Ö·pstamac
-ï¿½ï¿½ï¿½í¹íº·ï¿½ï¿½ï¿½Ç©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sigData
-      Ç©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý³ï¿½ï¿½ï¿½puSigDataLen
-ï¿½ï¿½ï¿½Ø£ï¿½Ç©ï¿½ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»ï¿½1
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+»ùÓÚECÍÖÔ²ÇúÏßµÄÊý×ÖÇ©ÃûËã·¨
+ÊäÈë£º´ýÇ©ÃûÕªÒªÖµpDigest£¬´ýÇ©ÃûÕªÒªÖµ³¤¶ÈuDigestLen
+      Ë½Ô¿pPrikey_in£¬Ë½Ô¿³¤¶ÈprikeyLen_in
+      sta¶ËmacµØÖ·pstamac
+Êä³ö£º·µ»ØÇ©Ãû½á¹ûsigData
+      Ç©ÃûºóÊý¾Ý³¤¶ÈpuSigDataLen
+·µ»Ø£ºÇ©Ãû³É¹¦·µ»Ø0£¬·ñÔò·µ»Ø1
+ÆäËü£º
 */
 int tcm_ecc_signature(	   unsigned char *pDigest, unsigned int uDigestLen,
 						   unsigned char *pPrikey_in, unsigned int prikeyLen_in, 
@@ -241,32 +241,32 @@ int tcm_ecc_signature(	   unsigned char *pDigest, unsigned int uDigestLen,
 	{
 		return 1;
 	}
-	//Ç©ï¿½ï¿½ï¿½ï¿½ï¿½È²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
+	//Ç©Ãû³¤¶È²»¹»£¬·µ»ØÊ§°Ü
 	if( *puSigDataLen < 2*g_uSCH_Numbits/8 )
 	{
 		*puSigDataLen = 2*g_uSCH_Numbits/8;
 		return 1;
 	}
 
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hashÖµÖ¸ï¿½ï¿½Ö¸ï¿½ï¿½NULLï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½
+	//Èç¹ûÊäÈëµÄhashÖµÖ¸ÕëÖ¸ÏòNULL£¬·µ»Ø´íÎó
 	if( pDigest==NULL )
 	{
 		return 1;
 
 	}
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÒªÇ©ï¿½ï¿½ï¿½ï¿½hashÖµï¿½ï¿½ï¿½È²ï¿½Ò»ï¿½Â£ï¿½ï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½ï¿½ï¿½
+	//Èç¹ûÐèÒªÇ©ÃûµÄhashÖµ³¤¶È²»Ò»ÖÂ£¬·µ»Ø´íÎó¡£
 	if( uDigestLen != g_uSCH_Numbits/8 )
 	{
 		return 1;
 	}
 
-	/* ï¿½ï¿½ï¿½ï¿½Ë½Ô¿ï¿½Ç·ï¿½Îªï¿½ï¿½ */
+	/* ¼ì²éË½Ô¿ÊÇ·ñÎª¿Õ */
 	if (pPrikey_in == NULL)
 	{
 		return 1;
 	}
 
-	/* ï¿½ï¿½ï¿½ï¿½Ë½Ô¿prikeyLen_inï¿½ï¿½ï¿½ï¿½ */
+	/* ¼ì²éË½Ô¿prikeyLen_in³¤¶È */
 	if (prikeyLen_in != g_uNumbits/8)
 	{
 		return 1;
@@ -281,7 +281,7 @@ int tcm_ecc_signature(	   unsigned char *pDigest, unsigned int uDigestLen,
 		return 1;
 	}
 
-	/* ×ªï¿½ï¿½Ë½Ô¿ï¿½Ö·ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ */
+	/* ×ª»»Ë½Ô¿×Ö·û´®Îª´óÊý */
 	BN_bin2bn(pPrikey_in, g_uNumbits/8, skey);
 	
 	if (!(ECC_Signature(pSigData, group, G, skey, pDigest)))
@@ -299,13 +299,13 @@ int tcm_ecc_signature(	   unsigned char *pDigest, unsigned int uDigestLen,
 }
 
 /*
-ï¿½ï¿½ï¿½ï¿½ECï¿½ï¿½Ô²ï¿½ï¿½ï¿½ßµï¿½ï¿½ï¿½ï¿½ï¿½Ç©ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ã·¨
-ï¿½ï¿½ï¿½ë£ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pData_inï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý³ï¿½ï¿½ï¿½dataLen_in
-      Ç©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½pSigndata_in, Ç©ï¿½ï¿½ï¿½ï¿½ï¿½Ý³ï¿½ï¿½ï¿½signdataLen_in
-      ï¿½ï¿½Ô¿pPubkey_inï¿½ï¿½ï¿½ï¿½Ô¿ï¿½ï¿½ï¿½ï¿½pubkeyLen_in
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
-ï¿½ï¿½ï¿½Ø£ï¿½ï¿½ï¿½Ö¤ï¿½ã·¨ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»ï¿½1
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+»ùÓÚECÍÖÔ²ÇúÏßµÄÊý×ÖÇ©ÃûÑéÖ¤Ëã·¨
+ÊäÈë£ºÃ÷ÎÄÊý¾ÝpData_in£¬Ã÷ÎÄÊý¾Ý³¤¶ÈdataLen_in
+      Ç©ÃûÊý¾ÝpSigndata_in, Ç©ÃûÊý¾Ý³¤¶ÈsigndataLen_in
+      ¹«Ô¿pPubkey_in£¬¹«Ô¿³¤¶ÈpubkeyLen_in
+Êä³ö£ºÎÞ 
+·µ»Ø£ºÑéÖ¤Ëã·¨³É¹¦·µ»Ø0£¬·ñÔò·µ»Ø1
+ÆäËü£º
 */
 int tcm_ecc_verify(unsigned char *pDigest, unsigned int uDigestLen, unsigned char *pSigndata_in, unsigned int signdataLen_in, unsigned char *pPubkey_in, unsigned int pubkeyLen_in)
 {
@@ -316,13 +316,13 @@ int tcm_ecc_verify(unsigned char *pDigest, unsigned int uDigestLen, unsigned cha
 	BIGNUM	*x, *y, *one;
 	EC_POINT	*P;
 	
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hashÖµÖ¸ï¿½ï¿½Ö¸ï¿½ï¿½NULLï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½
+	//Èç¹ûÊäÈëµÄhashÖµÖ¸ÕëÖ¸ÏòNULL£¬·µ»Ø´íÎó
 	if( pDigest==NULL )
 	{
 		return 1;
 
 	}
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½Ö¤ï¿½ï¿½hashÖµï¿½ï¿½ï¿½È²ï¿½Ò»ï¿½Â£ï¿½ï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½ï¿½ï¿½
+	//Èç¹ûÐèÒªÑéÖ¤µÄhashÖµ³¤¶È²»Ò»ÖÂ£¬·µ»Ø´íÎó¡£
 	if( uDigestLen != g_uSCH_Numbits/8 )
 	{
 		return 1;
@@ -330,14 +330,14 @@ int tcm_ecc_verify(unsigned char *pDigest, unsigned int uDigestLen, unsigned cha
 	//
 
 
-	/* ï¿½ï¿½ï¿½ï¿½Ç©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Îªï¿½ï¿½ */
+	/* ¼ì²éÇ©ÃûÊý¾ÝÊÇ·ñÎª¿Õ */
 	if (pSigndata_in == NULL)
 	{
 		 //uiPrintf("*****pSigndata_in == NULL\n");
 		return 1;
 	}
 
-	/* ï¿½ï¿½ï¿½ï¿½Ç©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½signdataLen_inï¿½Ä³ï¿½ï¿½ï¿½ */
+	/* ¼ì²éÇ©ÃûÊý¾ÝsigndataLen_inµÄ³¤¶È */
 	if (signdataLen_in != 2 * (g_uNumbits/8))
 	{
 		 //uiPrintf("*****signdataLen_in:%d\n",signdataLen_in);
@@ -345,19 +345,19 @@ int tcm_ecc_verify(unsigned char *pDigest, unsigned int uDigestLen, unsigned cha
 	}
 
 
-	/* ï¿½ï¿½ï¿½é¹«Ô¿pubkeyLen_inï¿½ï¿½ï¿½ï¿½ */
+	/* ¼ì²é¹«Ô¿pubkeyLen_in³¤¶È */
 	if (pubkeyLen_in != PUBKEY_LEN)
 	{
 		//uiPrintf("****pubkeyLen_in\n");
 		return 1;
 	}
-	/* ï¿½ï¿½ï¿½é¹«Ô¿pPubkey_inï¿½Ç·ï¿½Îªï¿½ï¿½ */
+	/* ¼ì²é¹«Ô¿pPubkey_inÊÇ·ñÎª¿Õ */
 	if (pPubkey_in ==NULL)
 	{
 		//uiPrintf("*****pPubkey_in ==NULL\n");
 		return 1;
 	}
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
+	//Èç¹û²»ÊÇ·ÇÑ¹ËõÐÎÊ½£¬·µ»ØÊ§°Ü
 	if( pPubkey_in[0] != 0x04 )
 	{
 		return 1;
@@ -380,21 +380,21 @@ int tcm_ecc_verify(unsigned char *pDigest, unsigned int uDigestLen, unsigned cha
 	}
  
 
-	/* ï¿½ï¿½ï¿½ï¿½Ô¿ï¿½Ö·ï¿½ï¿½ï¿½(48ï¿½Ö½ï¿½)ï¿½Ö³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(g_uNumbits/8, g_uNumbits/8)ï¿½Ö½ï¿½ */
+	/* ½«¹«Ô¿×Ö·û´®(48×Ö½Ú)·Ö³ÉÁ½²¿·Ö(g_uNumbits/8, g_uNumbits/8)×Ö½Ú */
 	for (i = 0; i < (g_uNumbits/8); i++) 
 	{
 		pstr_r[i] = pPubkey_in[1+i];
 		pstr_s[i] = pPubkey_in[1+g_uNumbits/8 + i];
 	}
 
-	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½(g_uNumbits/8, g_uNumbits/8)ï¿½Ö½Ú´ï¿½×ªï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ */
+	/* ½«Á½²¿·Ö(g_uNumbits/8, g_uNumbits/8)×Ö½Ú´®×ª»»Îª´óÊý */
 	BN_bin2bn(pstr_r, g_uNumbits/8, x);
 	BN_bin2bn(pstr_s, g_uNumbits/8, y);
 
 	BN_hex2bn(&one, "1");
  
    
-	/* ï¿½ï¿½ï¿½É¹ï¿½Ô¿ï¿½ï¿½P */
+	/* Éú³É¹«Ô¿µãP */
 	EC_POINT_set_point(P, x, y, one);
 	if (!(ECC_Verify(group, G, P, pDigest, pSigndata_in)))
 	{
@@ -425,12 +425,12 @@ int tcm_ecc_verify(unsigned char *pDigest, unsigned int uDigestLen, unsigned cha
 
 
 /*
-ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ë£ºï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö½Ú³ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
-ï¿½ï¿½ï¿½Ø£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½Å¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½
-	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó·µ»ï¿½-1
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ÅÐ¶ÏÊÇ·ñÆæÊý
+ÊäÈë£º±ÈÌØ´®£¬´®×Ö½Ú³¤¶È
+Êä³ö£ºÎÞ 
+·µ»Ø£ºÆæÊý·µ»Ø1£¬Å¼Êý·µ»Ø0¡£
+	ÆäËû´íÎó·µ»Ø-1
+ÆäËü£º
 */
 int tcm_ecc_string_is_odd(unsigned char *string,  unsigned int len)
 {
@@ -449,11 +449,11 @@ int tcm_ecc_string_is_odd(unsigned char *string,  unsigned int len)
 }
 
 /*
-ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½Ø´ï¿½
-ï¿½ï¿½ï¿½ë£ºxï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½yï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö½Ú³ï¿½ï¿½È£ï¿½Ñ¹ï¿½ï¿½Ä£Ê½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
-ï¿½ï¿½ï¿½Ø£ï¿½ï¿½ï¿½ï¿½Ø£ï¿½ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»ï¿½1
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+¸ù¾Ýx±ÈÌØ´®¼ÆËãy±ÈÌØ´®
+ÊäÈë£ºx±ÈÌØ´®£¬y±ÈÌØ´®£¬´®×Ö½Ú³¤¶È£¬Ñ¹ËõÄ£Ê½
+Êä³ö£ºÎÞ 
+·µ»Ø£º·µ»Ø£º³É¹¦·µ»Ø0£¬·ñÔò·µ»Ø1
+ÆäËü£º
 */
 int tcm_ecc_x_to_y(unsigned char *xstr, unsigned char *ystr, unsigned int len,
 				   unsigned int form)
@@ -487,7 +487,7 @@ int tcm_ecc_x_to_y(unsigned char *xstr, unsigned char *ystr, unsigned int len,
 
 	
 	if ( x == NULL || y == NULL || a == NULL || b == NULL || 
-		tmp == NULL || left == NULL || right == NULL ||		
+		tmp == NULL || left == NULL, right == NULL ||		
 		ctx == NULL )
 	{
 		return 1;
@@ -524,13 +524,13 @@ int tcm_ecc_x_to_y(unsigned char *xstr, unsigned char *ystr, unsigned int len,
 	// x^3+ax+b
 	BN_mod_add(right, right, tmp, p, ctx);
 	BN_mod_add(right, right, b, p, ctx);
-	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò±ï¿½
+	// ¼ÆËã¼ÆËãÍê±ÏÓÒ±ß
 
 
-	//ï¿½ï¿½ï¿½ï¿½y
+	//¼ÆËãy
 	if( !BN_mod_sqrt(y, right, p, ctx) )
 	{
-		//Ã»ï¿½ï¿½Æ½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½
+		//Ã»ÓÐÆ½·½¸ù£¬·µ»Ø´íÎó
 		iret = 1;
 		goto end;
 	}
@@ -578,10 +578,10 @@ end:
 }
 
 /*
- ï¿½ï¿½ï¿½ï¿½ECï¿½ï¿½Ô²ï¿½ï¿½ï¿½ßµï¿½ï¿½Ð¶Ï±ï¿½ï¿½Ø´ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½Ò»ï¿½ï¿½ï¿½ã£¬
-  ï¿½ï¿½ï¿½ï¿½ï¿½Ç£ï¿½ï¿½ï¿½ï¿½ï¿½TRUE
-  ï¿½ï¿½ï¿½ò·µ»ï¿½FALSE
-  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½tcm_ecc_point_to_uncompressedï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½Ê½ï¿½Ä´ï¿½
+ »ùÓÚECÍÖÔ²ÇúÏßµÄÅÐ¶Ï±ÈÌØ´®ÊÇ·ñ±íÊ¾ÇúÏßÉÏµÄÒ»¸öµã£¬
+  Èç¹ûÊÇ£¬·µ»ØTRUE
+  ·ñÔò·µ»ØFALSE
+  Õâ¸ö±ÈÌØ´®±ØÐëÊÇ·ÇÑ¹ËõÐÎÊ½£¬¿ÉÒÔÊ¹ÓÃtcm_ecc_point_to_uncompressedº¯ÊýµÃµ½·ÇÑ¹ËõÐÎÊ½µÄ´®
 */
 BOOL tcm_ecc_is_point_valid(unsigned char *pPoint, unsigned int pointLen)
 {
@@ -598,7 +598,7 @@ BOOL tcm_ecc_is_point_valid(unsigned char *pPoint, unsigned int pointLen)
 		return 0;
 	}
 
-	//Îªx,yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
+	//Îªx,y×ø±ê·ÖÅäÄÚ´æ
 	if( (pstr_x = (unsigned char*)malloc(g_uNumbits/8)) == NULL )
 	{
 		return FALSE;
@@ -609,7 +609,7 @@ BOOL tcm_ecc_is_point_valid(unsigned char *pPoint, unsigned int pointLen)
 		return FALSE;
 	}
 
-	//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½Ê½
+	//ÅÐ¶ÏÊÇ·ñ·ÇÑ¹ËõÐÎÊ½
 	if( pPoint[0]!= 04 )
 	{
 		free(pstr_x);
@@ -622,7 +622,7 @@ BOOL tcm_ecc_is_point_valid(unsigned char *pPoint, unsigned int pointLen)
 	memcpy( pstr_y, &pPoint[1+g_uNumbits/8], g_uNumbits/8 );
 	
 
-	//ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶Ïµï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//ÏÂÃæÅÐ¶ÏµãÊÇ·ñÔÚÇúÏßÉÏ
 	{
 		BIGNUM	*x, *y, *z;
 		EC_POINT *P;
@@ -639,7 +639,7 @@ BOOL tcm_ecc_is_point_valid(unsigned char *pPoint, unsigned int pointLen)
 
 		//
 		EC_POINT_set_point(P, x, y, z);
-		/* ï¿½ï¿½ï¿½ï¿½C1ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß·ï¿½ï¿½ï¿½ */
+		/* ¼ì²éC1ÊÇ·ñÂú×ãÇúÏß·½³Ì */
 		bret = EC_POINT_is_on_curve(group, P);
 		//		
 		BN_free(x);
@@ -648,7 +648,7 @@ BOOL tcm_ecc_is_point_valid(unsigned char *pPoint, unsigned int pointLen)
 		EC_POINT_free(P);
 	}
 
-	//ï¿½Í·Å·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
+	//ÊÍ·Å·ÖÅäµÄÄÚ´æ
 	free(pstr_x);
 	free(pstr_y);
 
@@ -658,13 +658,13 @@ BOOL tcm_ecc_is_point_valid(unsigned char *pPoint, unsigned int pointLen)
 
 
 /*
-ï¿½ï¿½ï¿½ï¿½ECï¿½ï¿½Ô²ï¿½ï¿½ï¿½ßµï¿½ï¿½Ð¶Ï±ï¿½ï¿½Ø´ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½Ò»ï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ë£ºï¿½ï¿½ï¿½ï¿½ï¿½Ö½Ú´ï¿½pData_inï¿½ï¿½ï¿½Ö½Ú´ï¿½ï¿½ï¿½ï¿½ï¿½dataLen_in
+»ùÓÚECÍÖÔ²ÇúÏßµÄÅÐ¶Ï±ÈÌØ´®ÊÇ·ñ±íÊ¾ÇúÏßÉÏµÄÒ»¸öµã
+ÊäÈë£ºµãµÄ×Ö½Ú´®pData_in£¬×Ö½Ú´®³¤¶ÈdataLen_in
 
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
-ï¿½ï¿½ï¿½Ø£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½Ò»ï¿½ï¿½ï¿½ã·µï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»ï¿½1ï¿½ï¿½
-	ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÏµÄµã£¬ï¿½ï¿½ï¿½Øµï¿½ï¿½Ä·ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¶ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½ï¿½
+Êä³ö£ºÎÞ 
+·µ»Ø£ºÊÇÇúÏßÉÏµÄÒ»¸öµã·µ»Ø0£¬·ñÔò·µ»Ø1¡£
+	Èç¹ûÊÇÇúÏßÉÏµÄµã£¬·µ»ØµãµÄ·ÇÑ¹ËõÐÎÊ½¡£
+ÆäËü£º¿É¶Ô0µã½øÐÐÓÐÐ§·ÖÎö
 */
 BOOL tcm_ecc_point_to_uncompressed(unsigned char *pPoint, unsigned int pubkeyLen_in,
 								unsigned char *string, unsigned int *puStringLen)
@@ -689,7 +689,7 @@ BOOL tcm_ecc_point_to_uncompressed(unsigned char *pPoint, unsigned int pubkeyLen
 		return FALSE;
 	}
 
-	//Îªx,yï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
+	//Îªx,y×ø±ê·ÖÅäÄÚ´æ
 	if( (pstr_x = (unsigned char*)malloc(g_uNumbits/8)) == NULL )
 	{
 		return FALSE;
@@ -705,8 +705,8 @@ BOOL tcm_ecc_point_to_uncompressed(unsigned char *pPoint, unsigned int pubkeyLen
 	{
 		case 00:
 			{
-				//0ï¿½ã²»ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½x,y
-				//ï¿½Í·Å·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
+				//0µã²»ÐèÒª·ÖÎöx,y
+				//ÊÍ·Å·ÖÅäµÄÄÚ´æ
 				free(pstr_x);
 				free(pstr_y);
 				//
@@ -714,7 +714,7 @@ BOOL tcm_ecc_point_to_uncompressed(unsigned char *pPoint, unsigned int pubkeyLen
 				{
 					return FALSE;
 				}
-				//0ï¿½ã·µï¿½ï¿½0
+				//0µã·µ»Ø0
 				string[0] = 0;
 				*puStringLen = 1;
 				return TRUE;
@@ -726,7 +726,7 @@ BOOL tcm_ecc_point_to_uncompressed(unsigned char *pPoint, unsigned int pubkeyLen
 			{
 				if( pubkeyLen_in != COMP_LEN )
 				{
-					//ï¿½Í·Å·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
+					//ÊÍ·Å·ÖÅäµÄÄÚ´æ
 					free(pstr_x);
 					free(pstr_y);
 					//
@@ -735,7 +735,7 @@ BOOL tcm_ecc_point_to_uncompressed(unsigned char *pPoint, unsigned int pubkeyLen
 				memcpy(pstr_x, &pPoint[1], g_uNumbits/8 );
 				if( tcm_ecc_x_to_y(pstr_x, pstr_y, g_uNumbits/8, pPoint[0]) == 1 )
 				{
-					//ï¿½Í·Å·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
+					//ÊÍ·Å·ÖÅäµÄÄÚ´æ
 					free(pstr_x);
 					free(pstr_y);
 					//
@@ -745,13 +745,13 @@ BOOL tcm_ecc_point_to_uncompressed(unsigned char *pPoint, unsigned int pubkeyLen
 			}
 
 
-		case 06:	//ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½Yï¿½ï¿½ï¿½ï¿½ÎªÅ¼ï¿½ï¿½
-		case 07:	//ï¿½ï¿½ï¿½ï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½Ê½ï¿½ï¿½Yï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½
+		case 06:	//»ìºÏÑ¹ËõÐÎÊ½£¬Y±ØÐëÎªÅ¼Êý
+		case 07:	//»ìºÏÑ¹ËõÐÎÊ½£¬Y±ØÐëÎªÆæÊý
 			{
 				//
 				if( (pPoint[0] == 06) && (tcm_ecc_string_is_odd(pPoint, 1+2*g_uNumbits/8) != 0) )
 				{
-					//ï¿½Í·Å·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
+					//ÊÍ·Å·ÖÅäµÄÄÚ´æ
 					free(pstr_x);
 					free(pstr_y);
 					//
@@ -760,18 +760,18 @@ BOOL tcm_ecc_point_to_uncompressed(unsigned char *pPoint, unsigned int pubkeyLen
 				//
 				if( (pPoint[0] == 07) &&  (tcm_ecc_string_is_odd(pPoint, 1+2*g_uNumbits/8) != 1) )
 				{
-					//ï¿½Í·Å·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
+					//ÊÍ·Å·ÖÅäµÄÄÚ´æ
 					free(pstr_x);
 					free(pstr_y);
 					//
 					return FALSE;
 				}
 			}
-		case 04:	//ï¿½ï¿½Ñ¹ï¿½ï¿½Ä£Ê½
+		case 04:	//·ÇÑ¹ËõÄ£Ê½
 			{
 				if( pubkeyLen_in != UNCOMP_LEN )
 				{
-					//ï¿½Í·Å·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
+					//ÊÍ·Å·ÖÅäµÄÄÚ´æ
 					free(pstr_x);
 					free(pstr_y);
 					//
@@ -781,9 +781,9 @@ BOOL tcm_ecc_point_to_uncompressed(unsigned char *pPoint, unsigned int pubkeyLen
 				memcpy(pstr_y, &pPoint[1+g_uNumbits/8], g_uNumbits/8);
 				break;
 			}
-		default:	//ï¿½ï¿½Ö§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä£Ê½
+		default:	//²»Ö§³ÖÕâÖÖÄ£Ê½
 			{
-				//ï¿½Í·Å·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
+				//ÊÍ·Å·ÖÅäµÄÄÚ´æ
 				free(pstr_x);
 				free(pstr_y);
 				//
@@ -793,7 +793,7 @@ BOOL tcm_ecc_point_to_uncompressed(unsigned char *pPoint, unsigned int pubkeyLen
 
 	
 
-	//ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶Ïµï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//ÏÂÃæÅÐ¶ÏµãÊÇ·ñÔÚÇúÏßÉÏ
 	{
 		BIGNUM	*x, *y, *z;
 		EC_POINT *P;
@@ -810,13 +810,13 @@ BOOL tcm_ecc_point_to_uncompressed(unsigned char *pPoint, unsigned int pubkeyLen
 
 		//
 		EC_POINT_set_point(P, x, y, z);
-		/* ï¿½ï¿½ï¿½ï¿½C1ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß·ï¿½ï¿½ï¿½ */
+		/* ¼ì²éC1ÊÇ·ñÂú×ãÇúÏß·½³Ì */
 		bret = EC_POINT_is_on_curve(group, P);
 		if( bret == TRUE )
 		{
-			//ï¿½ï¿½ï¿½ï¿½ÎªÎ´Ñ¹ï¿½ï¿½ï¿½ï¿½Ê½
+			//ÉèÖÃÎªÎ´Ñ¹ËõÐÎÊ½
 			string[0] = (unsigned char)04;
-			//ï¿½ï¿½ï¿½ï¿½xï¿½ï¿½y
+			//ÉèÖÃxÓëy
 			memcpy(&string[1], pstr_x, g_uNumbits/8);
 			memcpy(&string[1+g_uNumbits/8], pstr_y, g_uNumbits/8);
 		}
@@ -826,7 +826,7 @@ BOOL tcm_ecc_point_to_uncompressed(unsigned char *pPoint, unsigned int pubkeyLen
 		EC_POINT_free(P);
 	}
 
-	//ï¿½Í·Å·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
+	//ÊÍ·Å·ÖÅäµÄÄÚ´æ
 	free(pstr_x);
 	free(pstr_y);
 

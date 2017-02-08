@@ -107,8 +107,8 @@ static void (*malloc_debug_func)(void *,int,const char *,int,int)
 static void (*realloc_debug_func)(void *,void *,int,const char *,int,int)
 	= CRYPTO_dbg_realloc;
 static void (*free_debug_func)(void *,int) = CRYPTO_dbg_free;
-static void (*set_debug_options_func)(long) = CRYPTO_dbg_set_options;
-static long (*get_debug_options_func)(void) = CRYPTO_dbg_get_options;
+static void (*set_debug_options_func)(int) = CRYPTO_dbg_set_options;
+static int (*get_debug_options_func)(void) = CRYPTO_dbg_get_options;
 #else
 /* applications can use CRYPTO_malloc_debug_init() to select above case
  * at run-time */
@@ -116,8 +116,8 @@ static void (*malloc_debug_func)(void *,int,const char *,int,int) = NULL;
 static void (*realloc_debug_func)(void *,void *,int,const char *,int,int)
 	= NULL;
 static void (*free_debug_func)(void *,int) = NULL;
-static void (*set_debug_options_func)(long) = NULL;
-static long (*get_debug_options_func)(void) = NULL;
+static void (*set_debug_options_func)(int) = NULL;
+static int (*get_debug_options_func)(void) = NULL;
 #endif
 
 
@@ -180,8 +180,8 @@ int CRYPTO_set_locked_mem_ex_functions(
 int CRYPTO_set_mem_debug_functions(void (*m)(void *,int,const char *,int,int),
 				   void (*r)(void *,void *,int,const char *,int,int),
 				   void (*f)(void *,int),
-				   void (*so)(long),
-				   long (*go)(void))
+				   void (*so)(int),
+				   int (*go)(void))
 	{
 	if (!allow_customize_debug)
 		return 0;
@@ -235,8 +235,8 @@ void CRYPTO_get_locked_mem_ex_functions(
 void CRYPTO_get_mem_debug_functions(void (**m)(void *,int,const char *,int,int),
 				    void (**r)(void *,void *,int,const char *,int,int),
 				    void (**f)(void *,int),
-				    void (**so)(long),
-				    long (**go)(void))
+				    void (**so)(int),
+				    int (**go)(void))
 	{
 	if (m != NULL) *m=malloc_debug_func;
 	if (r != NULL) *r=realloc_debug_func;
@@ -353,7 +353,7 @@ void *CRYPTO_realloc_clean(void *str, int old_len, int num, const char *file,
 	if(ret)
 		{
 		memcpy(ret,str,old_len);
-		OPENSSL_cleanse(str,old_len);
+		OPENSSL_cleanse(str,(size_t)old_len);
 		free_func(str);
 		}
 #ifdef LEVITTE_DEBUG_MEM
@@ -386,13 +386,13 @@ void *CRYPTO_remalloc(void *a, int num, const char *file, int line)
 	return(a);
 	}
 
-void CRYPTO_set_mem_debug_options(long bits)
+void CRYPTO_set_mem_debug_options(int bits)
 	{
 	if (set_debug_options_func != NULL)
 		set_debug_options_func(bits);
 	}
 
-long CRYPTO_get_mem_debug_options(void)
+int CRYPTO_get_mem_debug_options(void)
 	{
 	if (get_debug_options_func != NULL)
 		return get_debug_options_func();

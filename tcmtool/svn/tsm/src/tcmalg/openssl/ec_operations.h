@@ -9,7 +9,7 @@ extern "C" {
 
 
 #ifndef BN_ULONG
-#define BN_ULONG	unsigned long
+#define BN_ULONG	unsigned int
 #endif
 
 

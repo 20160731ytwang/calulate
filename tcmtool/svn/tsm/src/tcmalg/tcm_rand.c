@@ -13,7 +13,7 @@ Date	:11/21/2006
 int tcm_bn_pseudo_rand(BIGNUM *rnd, int bits)
 {
 	unsigned char *pbuffer = NULL;
-	pbuffer = OPENSSL_malloc(bits/8);
+	pbuffer = (unsigned char *)OPENSSL_malloc(bits/8);
 
 	//
 	if( tcm_rng(bits, pbuffer) == 1 )

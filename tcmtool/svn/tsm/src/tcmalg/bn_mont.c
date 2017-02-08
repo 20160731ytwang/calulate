@@ -147,9 +147,9 @@ int BN_from_montgomery(BIGNUM *ret, const BIGNUM *a, BN_MONT_CTX *mont,
 		{
 #ifdef __TANDEM
                 {
-                   long long t1;
-                   long long t2;
-                   long long t3;
+                   int int t1;
+                   int int t2;
+                   int int t3;
                    t1 = rp[0] * (n0 & 0177777);
                    t2 = 037777600000l;
                    t2 = n0 & t2;

@@ -2,8 +2,8 @@
 Module name:ec_operations.c
 Written by:ChenJUN
 Date:2003-6-16
-Purpose:ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ßµÄ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½í½Ží¼¼ï¿½Ç©ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½Ó½ï¿½ï¿½ï¿½ï¿½ã·¨
-È«ï¿½ï¿½ï¿½ï¿½ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½Ö¡ï¿½
+Purpose:ÍÖÔ²ÇúÏßµÄ»ù±¾²Ù×÷£¬¼°Ç©ÃûÑéÖ¤£¬¼Ó½âÃÜËã·¨
+È«²¿²ÉÓÃ·ÂÉä×ø±êÊµÏÖ¡£
 ************************************************************/
 
 #include "openssl/bn.h"
@@ -14,7 +14,7 @@ Purpose:ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ßµÄ»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½í½Ží¼¼ï¿½Ç©ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿
 EC_POINT *EC_POINT_new()
 {
 	EC_POINT *ret;
-	ret = OPENSSL_malloc(sizeof *ret);
+	ret = (EC_POINT*)OPENSSL_malloc(sizeof *ret);
 	BN_init(&ret->X);
 	BN_init(&ret->Y);
 	BN_init(&ret->Z);
@@ -87,7 +87,7 @@ int EC_POINT_invert(const EC_GROUP *group,EC_POINT *point)
 	return BN_usub(&point->Y, &group->p, &point->Y);
 }
 
-/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+/* ·ÂÉä×ø±ê×ª»»Îª¼¸ºÎ×ø±ê */
 int EC_POINT_affine2gem(const EC_GROUP *group,const EC_POINT *P,EC_POINT *R)
 {
 	BIGNUM *x,*y,*z,*tmp,*one;
@@ -153,7 +153,7 @@ int EC_POINT_sub(const EC_GROUP *group, EC_POINT *R, const EC_POINT *P0, const E
 	return 1;
 }
 
-/* R=2Pï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ßµÄµï¿½ï¿½Ä±ï¿½ï¿½ï¿½ */
+/* R=2PÓÃ·ÂÉä×ø±êÏÂÇóÍÖÔ²ÇúÏßµÄµãµÄ±¶³Ë */
 int EC_POINT_dbl(const EC_GROUP *group, EC_POINT *R, const EC_POINT *P)
 {
 	BIGNUM *t1,*t2,*t3,*t4,*t5,*tmp,*one;
@@ -196,19 +196,19 @@ int EC_POINT_dbl(const EC_GROUP *group, EC_POINT *R, const EC_POINT *P)
 
 	/* step5 */
 	BN_copy(t4,a);
-	BN_mul(t5,t3,t3,ctx);		/* t5=t3ï¿½ï¿½t3 */
+	BN_mul(t5,t3,t3,ctx);		/* t5=t3¡Át3 */
 	BN_nnmod(t5,t5,p,ctx);
 
-	BN_mul(t5,t5,t5,ctx);		/* t5=t5ï¿½ï¿½t5 */
+	BN_mul(t5,t5,t5,ctx);		/* t5=t5¡Át5 */
 	BN_nnmod(t5,t5,p,ctx);
 
-	BN_mul(t5,t4,t5,ctx);		/* t5=t4ï¿½ï¿½t5 */
+	BN_mul(t5,t4,t5,ctx);		/* t5=t4¡Át5 */
 	BN_nnmod(t5,t5,p,ctx);
 
-	BN_mul(t4,t1,t1,ctx);		/* t4=t1ï¿½ï¿½t1 */
+	BN_mul(t4,t1,t1,ctx);		/* t4=t1¡Át1 */
 	BN_nnmod(t4,t4,p,ctx);
 
-	/* t4=3ï¿½ï¿½t4 */
+	/* t4=3¡Át4 */
 	BN_dec2bn(&tmp,"3");
 	BN_mul(t4,tmp,t4,ctx);
 	BN_nnmod(t4,t4,p,ctx);
@@ -216,36 +216,36 @@ int EC_POINT_dbl(const EC_GROUP *group, EC_POINT *R, const EC_POINT *P)
 	BN_add(t4,t4,t5);			/* t4=t4+t5 */
 
 	/* step6-20 */
-	BN_mul(t3,t2,t3,ctx);		/* t3=t2ï¿½ï¿½t3 */
+	BN_mul(t3,t2,t3,ctx);		/* t3=t2¡Át3 */
 	BN_nnmod(t3,t3,p,ctx);
-	BN_add(t3,t3,t3);			/* t3=2ï¿½ï¿½t3 */
+	BN_add(t3,t3,t3);			/* t3=2¡Át3 */
 	BN_nnmod(t3,t3,p,ctx);		/* z2 */
 
-	BN_mul(t2,t2,t2,ctx);		/* t2=t2ï¿½ï¿½t2 */
+	BN_mul(t2,t2,t2,ctx);		/* t2=t2¡Át2 */
 	BN_nnmod(t2,t2,p,ctx);
-	BN_mul(t5,t1,t2,ctx);		/* t5=t1ï¿½ï¿½t2 */
+	BN_mul(t5,t1,t2,ctx);		/* t5=t1¡Át2 */
 	BN_nnmod(t5,t5,p,ctx);
 
-	/* t5=4ï¿½ï¿½t5 */
+	/* t5=4¡Át5 */
 	BN_add(t5,t5,t5);
 	BN_add(t5,t5,t5);
 
-	BN_mul(t1,t4,t4,ctx);		/* t1=t4ï¿½ï¿½t4 */
+	BN_mul(t1,t4,t4,ctx);		/* t1=t4¡Át4 */
     
-	/* t1=t1 -2ï¿½ï¿½t5 */
+	/* t1=t1 -2¡Át5 */
 	BN_add(tmp,t5,t5);
 	BN_sub(t1,t1,tmp);
 	BN_nnmod(t1,t1,p,ctx);		/* x2 */
 
-	BN_mul(t2,t2,t2,ctx);		/* t2=t2ï¿½ï¿½t2 */
+	BN_mul(t2,t2,t2,ctx);		/* t2=t2¡Át2 */
 
-	/* t2=8ï¿½ï¿½t2 */
+	/* t2=8¡Át2 */
 	BN_add(t2,t2,t2);
 	BN_add(t2,t2,t2);
 	BN_add(t2,t2,t2);
 
 	BN_sub(t5,t5,t1);			/* t5=t5-t1 */
-	BN_mul(t5,t4,t5,ctx);		/* t5=t4ï¿½ï¿½t5 */
+	BN_mul(t5,t4,t5,ctx);		/* t5=t4¡Át5 */
 	BN_sub(t2,t5,t2);			/* t2=t5-t2 */
 	BN_nnmod(t2,t2,p,ctx);		/* y2 */
 
@@ -266,7 +266,7 @@ int EC_POINT_dbl(const EC_GROUP *group, EC_POINT *R, const EC_POINT *P)
 	return 1;
 }
 
-/* ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ßµÄµï¿½ï¿½Ó·ï¿½ */
+/* ÓÃ·ÂÉä×ø±êÏÂÇóÍÖÔ²ÇúÏßµÄµã¼Ó·¨ */
 int EC_POINT_add(const EC_GROUP *group, EC_POINT *R, const EC_POINT *P0,const EC_POINT *P1)
 {
 	BIGNUM *t1,*t2,*t3,*t4,*t5,*t6,*t7,*tmp,*one;
@@ -299,7 +299,7 @@ int EC_POINT_add(const EC_GROUP *group, EC_POINT *R, const EC_POINT *P0,const EC
 
 	p=&group->p;
 	
-	/* P0=P1Ê±ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ */
+	/* P0=P1Ê±£¬ÓÃ±¶³Ë */
 	if(BN_cmp(t1,t4)==0&&BN_cmp(t2,t5)==0&&BN_cmp(t3,t6)==0)
 	{
 		BN_free(t1);
@@ -323,24 +323,24 @@ int EC_POINT_add(const EC_GROUP *group, EC_POINT *R, const EC_POINT *P0,const EC
 	/* if z1<>1 */
 	if(BN_cmp(t6,one)!=0)
 	{
-		BN_mul(t7,t6,t6,ctx);		/* t7=t6ï¿½ï¿½t6 */
+		BN_mul(t7,t6,t6,ctx);		/* t7=t6¡Át6 */
 		BN_nnmod(t7,t7,p,ctx);
-		BN_mul(t1,t1,t7,ctx);		/* t1=t1ï¿½ï¿½t7 */
+		BN_mul(t1,t1,t7,ctx);		/* t1=t1¡Át7 */
 		BN_nnmod(t1,t1,p,ctx);
-		BN_mul(t7,t6,t7,ctx);		/* t7=t6ï¿½ï¿½t7 */
+		BN_mul(t7,t6,t7,ctx);		/* t7=t6¡Át7 */
 		BN_nnmod(t7,t7,p,ctx);
-		BN_mul(t2,t2,t7,ctx);		/* t2=t2ï¿½ï¿½t7 */
+		BN_mul(t2,t2,t7,ctx);		/* t2=t2¡Át7 */
 		BN_nnmod(t2,t2,p,ctx);
 	}
 
 	/* step7~12 */
-	BN_mul(t7,t3,t3,ctx);			/* t7=t3ï¿½ï¿½t3 */
+	BN_mul(t7,t3,t3,ctx);			/* t7=t3¡Át3 */
 	BN_nnmod(t7,t7,p,ctx);
-	BN_mul(t4,t4,t7,ctx);			/* t4=t4ï¿½ï¿½t7 */
+	BN_mul(t4,t4,t7,ctx);			/* t4=t4¡Át7 */
 	BN_nnmod(t4,t4,p,ctx);
-	BN_mul(t7,t3,t7,ctx);			/* t7=t3ï¿½ï¿½t7 */
+	BN_mul(t7,t3,t7,ctx);			/* t7=t3¡Át7 */
 	BN_nnmod(t7,t7,p,ctx);
-	BN_mul(t5,t5,t7,ctx);			/* t5=t5ï¿½ï¿½t7 */
+	BN_mul(t5,t5,t7,ctx);			/* t5=t5¡Át7 */
 	BN_nnmod(t5,t5,p,ctx);
 	BN_sub(t4,t1,t4);				/* t4=t1-t4 */
 	BN_sub(t5,t2,t5);				/* t5=t2-t5 */
@@ -373,24 +373,24 @@ int EC_POINT_add(const EC_GROUP *group, EC_POINT *R, const EC_POINT *P0,const EC
 		BN_mul(t3,t3,t6,ctx);
 
 	/* step17~22 */
-	BN_mul(t3,t3,t4,ctx);			/* t3=t3ï¿½ï¿½t4 */
+	BN_mul(t3,t3,t4,ctx);			/* t3=t3¡Át4 */
 	BN_nnmod(t3,t3,p,ctx);
 
-	BN_mul(t7,t4,t4,ctx);			/* t7=t4ï¿½ï¿½t4 */
-	BN_mul(t4,t4,t7,ctx);			/*t4=t4ï¿½ï¿½t7 */
-	BN_mul(t7,t1,t7,ctx);			/* t7=t1ï¿½ï¿½t7 */
-	BN_mul(t1,t5,t5,ctx);			/* t1=t5ï¿½ï¿½t5 */
+	BN_mul(t7,t4,t4,ctx);			/* t7=t4¡Át4 */
+	BN_mul(t4,t4,t7,ctx);			/*t4=t4¡Át7 */
+	BN_mul(t7,t1,t7,ctx);			/* t7=t1¡Át7 */
+	BN_mul(t1,t5,t5,ctx);			/* t1=t5¡Át5 */
 	BN_sub(t1,t1,t7);				/* t1=t1-t7 */
 	BN_nnmod(t1,t1,p,ctx);
 
 	/* step23 */
-	/* t7=t7 -2ï¿½ï¿½t1 */
+	/* t7=t7 -2¡Át1 */
     BN_add(tmp,t1,t1);
 	BN_sub(t7,t7,tmp);
 
 	/* step24-30 */
-	BN_mul(t5,t5,t7,ctx);			/*t5=t5ï¿½ï¿½t7 */
-	BN_mul(t4,t2,t4,ctx);			/* t4=t2ï¿½ï¿½t4 */
+	BN_mul(t5,t5,t7,ctx);			/*t5=t5¡Át7 */
+	BN_mul(t4,t2,t4,ctx);			/* t4=t2¡Át4 */
 	BN_sub(t2,t5,t4);				/* t2=t5-t4 */
 	BN_dec2bn(&tmp,"2");
     BN_rshift(t2,t2,1);				/* t2=t2/2 */
@@ -412,7 +412,7 @@ int EC_POINT_add(const EC_GROUP *group, EC_POINT *R, const EC_POINT *P0,const EC
 	return 1;
 }
 
-/* ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½ßµÄµï¿½ï¿½Ó·ï¿½(ï¿½ï¿½ï¿½ï¿½È¡Ä£) */
+/* ÓÃ·ÂÉä×ø±êÏÂÇóÍÖÔ²ÇúÏßµÄµã¼Ó·¨(²»´ýÈ¡Ä£) */
 int EC_POINT_add2(const EC_GROUP *group, EC_POINT *R, const EC_POINT *P0,const EC_POINT *P1)
 {
 	BIGNUM *t1,*t2,*t3,*t4,*t5,*t6,*t7,*tmp,*one;
@@ -445,7 +445,7 @@ int EC_POINT_add2(const EC_GROUP *group, EC_POINT *R, const EC_POINT *P0,const E
 
 	p=&group->p;
 	
-	/* P0=P1Ê±ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½ */
+	/* P0=P1Ê±£¬ÓÃ±¶³Ë */
 	if(BN_cmp(t1,t4)==0&&BN_cmp(t2,t5)==0&&BN_cmp(t3,t6)==0)
 	{
 		BN_free(t1);
@@ -469,17 +469,17 @@ int EC_POINT_add2(const EC_GROUP *group, EC_POINT *R, const EC_POINT *P0,const E
 	/* if z1<>1 */
 	if(BN_cmp(t6,one)!=0)
 	{
-		BN_mul(t7,t6,t6,ctx);			/* t7=t6ï¿½ï¿½t6 */
-		BN_mul(t1,t1,t7,ctx);			/* t1=t1ï¿½ï¿½t7 */
-		BN_mul(t7,t6,t7,ctx);			/* t7=t6ï¿½ï¿½t7 */
-		BN_mul(t2,t2,t7,ctx);			/* t2=t2ï¿½ï¿½t7 */
+		BN_mul(t7,t6,t6,ctx);			/* t7=t6¡Át6 */
+		BN_mul(t1,t1,t7,ctx);			/* t1=t1¡Át7 */
+		BN_mul(t7,t6,t7,ctx);			/* t7=t6¡Át7 */
+		BN_mul(t2,t2,t7,ctx);			/* t2=t2¡Át7 */
 	}
 
 	/* step7~12 */
-	BN_mul(t7,t3,t3,ctx);				/* t7=t3ï¿½ï¿½t3 */
-	BN_mul(t4,t4,t7,ctx);				/* t4=t4ï¿½ï¿½t7 */
-	BN_mul(t7,t3,t7,ctx);				/* t7=t3ï¿½ï¿½t7 */
-	BN_mul(t5,t5,t7,ctx);				/* t5=t5ï¿½ï¿½t7 */
+	BN_mul(t7,t3,t3,ctx);				/* t7=t3¡Át3 */
+	BN_mul(t4,t4,t7,ctx);				/* t4=t4¡Át7 */
+	BN_mul(t7,t3,t7,ctx);				/* t7=t3¡Át7 */
+	BN_mul(t5,t5,t7,ctx);				/* t5=t5¡Át7 */
 	BN_sub(t4,t1,t4);					/* t4=t1-t4 */
 	BN_sub(t5,t2,t5);					/* t5=t2-t5 */
 
@@ -511,23 +511,23 @@ int EC_POINT_add2(const EC_GROUP *group, EC_POINT *R, const EC_POINT *P0,const E
 		BN_mul(t3,t3,t6,ctx);
 
 	/* step17~22 */
-	BN_mul(t3,t3,t4,ctx);			/* t3=t3ï¿½ï¿½t4 */
+	BN_mul(t3,t3,t4,ctx);			/* t3=t3¡Át4 */
 	BN_nnmod(t3,t3,p,ctx);
-	BN_mul(t7,t4,t4,ctx);			/* t7=t4ï¿½ï¿½t4 */
-	BN_mul(t4,t4,t7,ctx);			/* t4=t4ï¿½ï¿½t7 */
-	BN_mul(t7,t1,t7,ctx);			/*t7=t1ï¿½ï¿½t7 */
-	BN_mul(t1,t5,t5,ctx);			/* t1=t5ï¿½ï¿½t5 */
+	BN_mul(t7,t4,t4,ctx);			/* t7=t4¡Át4 */
+	BN_mul(t4,t4,t7,ctx);			/* t4=t4¡Át7 */
+	BN_mul(t7,t1,t7,ctx);			/*t7=t1¡Át7 */
+	BN_mul(t1,t5,t5,ctx);			/* t1=t5¡Át5 */
 	BN_sub(t1,t1,t7);				/* t1=t1-t7 */
 	BN_nnmod(t1,t1,p,ctx);
 
 	/* step23 */
-	/* t7=t7 -2ï¿½ï¿½t1 */
+	/* t7=t7 -2¡Át1 */
     BN_add(tmp,t1,t1);
 	BN_sub(t7,t7,tmp);
 
 	/* step24-30 */
-	BN_mul(t5,t5,t7,ctx);			/* t5=t5ï¿½ï¿½t7 */
-	BN_mul(t4,t2,t4,ctx);			/* t4=t2ï¿½ï¿½t4 */
+	BN_mul(t5,t5,t7,ctx);			/* t5=t5¡Át7 */
+	BN_mul(t4,t2,t4,ctx);			/* t4=t2¡Át4 */
 	BN_sub(t2,t5,t4);				/* t2=t5-t4 */
 	BN_dec2bn(&tmp,"2");
 
@@ -551,7 +551,7 @@ int EC_POINT_add2(const EC_GROUP *group, EC_POINT *R, const EC_POINT *P0,const E
 }
 
 /* 
-Ecc Scalar Multiplicationï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½
+Ecc Scalar Multiplication·ÂÉä×ø±êÏÂµÄÊý³Ë
 S=nP
 */
 int EC_POINT_mul(const EC_GROUP *group,EC_POINT *S,const BIGNUM *n, const EC_POINT *P)
@@ -670,7 +670,7 @@ int EC_POINT_mul(const EC_GROUP *group,EC_POINT *S,const BIGNUM *n, const EC_POI
 EC_GROUP *EC_GROUP_new()
 { 
 	EC_GROUP *ret;
-	ret = OPENSSL_malloc(sizeof *ret);
+	ret = (EC_GROUP *)OPENSSL_malloc(sizeof *ret);
 	BN_init(&(ret->p));
 	BN_init(&(ret->a));
 	BN_init(&(ret->b));
@@ -748,15 +748,15 @@ int EC_GROUP_get_cofactor(const EC_GROUP *group, BIGNUM *cofactor)
 }
 
 /* 
-ï¿½Ð¶Ïµï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð§ï¿½Ê£ï¿½È«ï¿½ï¿½Ê¹ï¿½ï¿½È¡Ä£ï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï£ï¿½ï¿½ï¿½ï¿½ï¿½TRUE
+ÅÐ¶ÏµãÊÇ·ñÔÚÇúÏßÉÏ
+Îª·½±ãÓëÐ§ÂÊ£¬È«²¿Ê¹ÓÃÈ¡Ä£¼ÆËã
+Èç¹ûµãÔÚÇúÏßÉÏ£¬·µ»ØTRUE
 author: linyang 
 time: 2006.11
 comment:
 	2006.12.31
-	ï¿½ï¿½ï¿½ï¿½pointï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
-	ï¿½ï¿½ï¿½ï¿½NPï¿½Ç·ï¿½Îªï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
+	Ôö¼ÓpointÊÇÎÞÇîÔ¶µãµÄÅÐ¶Ï
+	Ôö¼ÓNPÊÇ·ñÎªÎÞÇîÔ¶µãµÄÅÐ¶Ï
 */
 BOOL EC_POINT_is_on_curve(const EC_GROUP *group, const EC_POINT *point)
 {
@@ -768,13 +768,13 @@ BOOL EC_POINT_is_on_curve(const EC_GROUP *group, const EC_POINT *point)
 	EC_POINT *P_NP;
 	const BIGNUM *p=&(group->p);
 
-	/* ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ã£¬ï¿½ï¿½ï¿½ï¿½ï¿½Ç£ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½ */
+	/* Ê×ÏÈÅÐ¶ÏÊÇ·ñÎÞÇîÔ¶µã£¬Èç¹ûÊÇ£¬·µ»ØÊ§°Ü */
 	if( EC_POINT_is_at_infinity(group, point) )
 	{
 		return FALSE;
 	}
 
-	/* ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	/* ·ÖÅäÄÚ´æ²Ù×÷ */
 	x=BN_new();
 	y=BN_new();
 	z=BN_new();
@@ -798,15 +798,15 @@ BOOL EC_POINT_is_on_curve(const EC_GROUP *group, const EC_POINT *point)
 	EC_POINT_get_point(point,x,y,z);
 
 	if ( x == NULL || y == NULL || a == NULL || b == NULL || 
-		tmp == NULL || left == NULL || right == NULL || N == NULL ||	
+		tmp == NULL || left == NULL, right == NULL || N == NULL ||	
 		P_NP == NULL ||
 		ctx == NULL )
 	{
 		return FALSE;
 	}
 
-	/* ï¿½Ãµï¿½ï¿½ï¿½ */
-	EC_GROUP_get_order(group,N);	/* ï¿½ï¿½ */
+	/* µÃµ½½× */
+	EC_GROUP_get_order(group,N);	/* ½× */
 
 //	BN_nnmod(x,x,p,ctx);
 	// tmp := x^3 
@@ -826,10 +826,10 @@ BOOL EC_POINT_is_on_curve(const EC_GROUP *group, const EC_POINT *point)
 	//
 	BN_mod_mul(left,y,y,p,ctx);
 
-	//ï¿½È½ï¿½
+	//±È½Ï
 	if(BN_cmp(left, right) == 0 )
 	{
-		/* ï¿½Ð¶ï¿½[n]P==O */
+		/* ÅÐ¶Ï[n]P==O */
 		EC_POINT_mul(group,P_NP,N,point);
 //		EC_POINT_affine2gem(group,Pt,Pt);
 //		EC_POINT_get_point(Pt,x1,y1,z2);

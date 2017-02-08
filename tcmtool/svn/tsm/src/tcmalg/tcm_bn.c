@@ -4,9 +4,9 @@ Author	:linyang
 Date	:1/5/2006
 ******************************************/
 
-#include "openssl/cryptlib.h"
-#include "openssl/bn_lcl.h"
-
+#include "cryptlib.h"
+#include "bn_lcl.h"
+#include "tcm_bn.h"
 /*
 按照输入的字节数进行转换。
 如果失败，返回-1。

@@ -2,7 +2,7 @@
 File	:ec_decrypt.c 
 Author	:linyang
 Date	:11/21/2006
-comment :ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨
+comment :¹ú±êËã·¨
 ******************************************/
 
 #include <string.h>
@@ -16,13 +16,13 @@ comment :ï¿½ï¿½ï¿½ï¿½ï¿½ã·¨
 #include "tcm_hash.h"
 
 /*
-ï¿½ï¿½ï¿½ï¿½ECï¿½Ä½ï¿½ï¿½ï¿½ï¿½ã·¨
-ï¿½ï¿½ï¿½Ü£ï¿½Êµï¿½ï¿½Bï¿½ï¿½ï¿½Õµï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢{(x1, y1), cipher}ï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½í¹íº½ï¿½ï¿½Üºï¿½ï¿½ï¿½ï¿½ï¿½Ï¢msg
-ï¿½ï¿½ï¿½Üºï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½È¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½È¶ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½
-ï¿½ï¿½ï¿½ë£ºgroupï¿½ï¿½ï¿½ï¿½ï¿½p, a, b, N
-ï¿½ï¿½ï¿½ë£ºBï¿½ï¿½Ë½Ô¿kb
-ï¿½ï¿½ï¿½ë£ºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢{(x1, y1), cipher}
+»ùÓÚECµÄ½âÃÜËã·¨
+¹¦ÄÜ£ºÊµÌåB¶ÔÊÕµ½µÄ¼ÓÃÜÐÅÏ¢{(x1, y1), cipher}½âÃÜ
+Êä³ö£º½âÃÜºóµÄÐÅÏ¢msg
+½âÃÜºóµÄÏûÏ¢³¤¶È¸ù¾ÝÃÜÎÄ³¤¶È¶¯Ì¬Ëã³ö
+ÊäÈë£ºgroup£¬°üÀ¨p, a, b, N
+ÊäÈë£ºBµÄË½Ô¿kb
+ÊäÈë£º¼ÓÃÜÐÅÏ¢{(x1, y1), cipher}
 */
 int ECC_Decrypt(unsigned char *msg,const EC_GROUP *group,unsigned char *cipher, unsigned int cipherLen, const BIGNUM *kb)
 {
@@ -33,9 +33,9 @@ int ECC_Decrypt(unsigned char *msg,const EC_GROUP *group,unsigned char *cipher, 
 	BIGNUM *N;
 	EC_POINT *C1,*S;
 
-	//ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
+	//Ã÷ÎÄ³¤¶È
 	const int klen= (cipherLen - (1+2*g_uNumbits/8 + HASH_NUMBITS/8) );
-	// pstr_hï¿½Ä³ï¿½ï¿½È£ï¿½ï¿½ï¿½ï¿½æ¶¨ï¿½ï¿½
+	// pstr_hµÄ³¤¶È£¬ÏÂÃæ¶¨Òå
 	const int hLen = g_uNumbits/8 + klen + g_uNumbits/8;		// x2||M||y2
 	int iret;
 
@@ -46,11 +46,11 @@ int ECC_Decrypt(unsigned char *msg,const EC_GROUP *group,unsigned char *cipher, 
 	//
 	unsigned char* pstr_xy;
 	//
-	unsigned char mac_in[HASH_NUMBITS/8];	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hash
-	unsigned char mac_u[HASH_NUMBITS/8];	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½
+	unsigned char mac_in[HASH_NUMBITS/8];	//ÊäÈëµÄhash
+	unsigned char mac_u[HASH_NUMBITS/8];	//¼ÆËãºóµÃµ½µÄ
 	//
-	unsigned char* pstr_t=NULL;	//Îªx2||y2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú´ï¿½
-	unsigned char* pstr_h=NULL;	//ï¿½ï¿½ï¿½Ú¼ï¿½ï¿½ï¿½Hash(x2||M||y2)
+	unsigned char* pstr_t=NULL;	//Îªx2||y2·ÖÅäµÄÄÚ´æ
+	unsigned char* pstr_h=NULL;	//ÓÃÓÚ¼ÆËãHash(x2||M||y2)
 
 	//
 	int i;
@@ -58,13 +58,13 @@ int ECC_Decrypt(unsigned char *msg,const EC_GROUP *group,unsigned char *cipher, 
 	BN_CTX *ctx= BN_CTX_new();
 	//
 
-	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½Îªï¿½ï¿½ */
+	/* ¼ì²éÃÜÎÄÊÇ·ñÎª¿Õ */
 	if (cipher == NULL)
 	{
 		return 1;
 	}
 
-	/* ï¿½ï¿½ï¿½ï¿½Ë½Ô¿ï¿½Ç·ï¿½Îªï¿½ï¿½ */
+	/* ¼ì²éË½Ô¿ÊÇ·ñÎª¿Õ */
 	if (kb == NULL)
 	{
 		return 1;
@@ -96,10 +96,10 @@ int ECC_Decrypt(unsigned char *msg,const EC_GROUP *group,unsigned char *cipher, 
 	//
 	pstr_xy = (unsigned char*)malloc(2*(g_uNumbits/8));
 	//
-	//ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ä£¬×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//·ÖÅä¿Õ¼ä£¬×¼±¸¼ÓÃÜ
 	pstr_t = (unsigned char *)malloc(klen);
 	// x2||M||y2
-	//ï¿½ï¿½ï¿½ï¿½ï¿½Õ¼ä£¬×¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hashï¿½ï¿½ï¿½ï¿½
+	//·ÖÅä¿Õ¼ä£¬×¼±¸½øÐÐhashÔËËã
 	pstr_h = (unsigned char *)malloc(hLen);
 
 	//
@@ -114,16 +114,16 @@ int ECC_Decrypt(unsigned char *msg,const EC_GROUP *group,unsigned char *cipher, 
 		return 1;
 	}
 
-	EC_GROUP_get_order(group,N);	/* ï¿½ï¿½ */
-//	BN_copy(p,&group->p); /* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	EC_GROUP_get_order(group,N);	/* ½× */
+//	BN_copy(p,&group->p); /* ´óËØÊý */
 
 	/* B1 */
-	/* step1:ï¿½ï¿½cipherï¿½ï¿½ï¿½ï¿½È¡x1,y1 */
+	/* step1:´ÓcipherÖÐÌáÈ¡x1,y1 */
 	memcpy(pstr_x1,cipher+1,g_uNumbits/8);
 	memcpy(pstr_y1,cipher+1+g_uNumbits/8,g_uNumbits/8);
-	/* ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ */
+	/* ÌáÈ¡ÃÜÎÄ */
 	memcpy(pstr_c,cipher+1+g_uNumbits/8+g_uNumbits/8,klen);
-	/* ï¿½ï¿½È¡mac */
+	/* ÌáÈ¡mac */
 	memcpy(mac_in,cipher+1+g_uNumbits/8+g_uNumbits/8+klen,sizeof(mac_in));
 
 
@@ -134,7 +134,7 @@ int ECC_Decrypt(unsigned char *msg,const EC_GROUP *group,unsigned char *cipher, 
 	BN_hex2bn(&one,"1");
 	EC_POINT_set_point(C1,x1,y1,one);
 
-	/* ï¿½ï¿½ï¿½ï¿½C1ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß·ï¿½ï¿½ï¿½ */
+	/* ¼ì²éC1ÊÇ·ñÂú×ãÇúÏß·½³Ì */
 	if( EC_POINT_is_on_curve(group, C1) == FALSE )
 	{
 		iret = 1;
@@ -143,16 +143,16 @@ int ECC_Decrypt(unsigned char *msg,const EC_GROUP *group,unsigned char *cipher, 
 
 	/* B2 */
 	/*******************************/
-	/* ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	/* µÃµ½ÓàÒò×Ó */
 	EC_GROUP_get_cofactor(group, h);
 
-	/* ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½ï¿½ï¿½ */
+	/* µÃµ½ÓàÒò×ÓµÄÄæ */
 	BN_mod_inverse(h1, h, N, ctx);
 	BN_nnmod(h1,h1,N,ctx);
 
 #ifdef TEST
 {
-	//ï¿½ï¿½ï¿½ï¿½ h1ï¿½Ç·ï¿½ï¿½ï¿½hï¿½ï¿½ï¿½ï¿½
+	//¼ì²é h1ÊÇ·ñÊÇhµÄÄæ
 	char *str;
 
 	str = BN_bn2hex(h);
@@ -167,24 +167,24 @@ int ECC_Decrypt(unsigned char *msg,const EC_GROUP *group,unsigned char *cipher, 
 }
 #endif
 
-	/* ï¿½ï¿½ï¿½ï¿½ [h]C1 */
+	/* ¼ÆËã [h]C1 */
 	EC_POINT_mul(group,S,h,C1);
 
-	/* ï¿½ï¿½ï¿½ï¿½[Db*h^(-1)] */
-	/* ï¿½ï¿½Ê±Ê¹ï¿½ï¿½z2 */
+	/* ¼ÆËã[Db*h^(-1)] */
+	/* ÁÙÊ±Ê¹ÓÃz2 */
 	BN_mul(z2,kb,h1,ctx);
 
-	/* ï¿½ï¿½ï¿½ï¿½ [Db*h^(-1)][h]C1 */
+	/* ¼ÆËã [Db*h^(-1)][h]C1 */
 	EC_POINT_mul(group,S,z2,S);
 	EC_POINT_affine2gem(group,S,S);
 	/*******************************/
-	/* ï¿½Å»ï¿½ï¿½ã·¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½hÎª1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
+	/* ÓÅ»¯Ëã·¨£¬ÓÃÓÚhÎª1µÄÇé¿ö */
 	/* S=[Db*h^-1][h]C1=(x2,y2) */
 	/* step2: */
 //	EC_POINT_mul(group,S,kb,C1);
 //	EC_POINT_affine2gem(group,S,S);
 	/*******************************/
-	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¶ï¿½ã£¬ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½ */
+	/* Èç¹ûÊÇÎÞÇîÔ¶µã£¬·µ»ØÊ§°Ü */
 	if( EC_POINT_is_at_infinity(group, S) )
 	{
 		iret = 1;
@@ -205,7 +205,7 @@ int ECC_Decrypt(unsigned char *msg,const EC_GROUP *group,unsigned char *cipher, 
 #endif
 
 	/* B3 */
-	/* ï¿½ï¿½ï¿½ï¿½ t=KDF(x2||y2, klen) */	
+	/* ¼ÆËã t=KDF(x2||y2, klen) */	
 	
 	/* X2||Y2 */
 	tcm_bn_bn2bin(x2, g_uNumbits/8, &pstr_xy[0]);
@@ -235,7 +235,7 @@ int ECC_Decrypt(unsigned char *msg,const EC_GROUP *group,unsigned char *cipher, 
 #endif
 
 	BN_bin2bn(pstr_t, klen, z2);
-	/* ï¿½ï¿½ï¿½ï¿½tÎªÈ«0ï¿½ï¿½ï¿½Ø´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ó·µ»ï¿½ */
+	/* Èç¹ûtÎªÈ«0±ÈÌØ´®£¬´íÎó·µ»Ø */
 	if( BN_is_zero(z2) )
 	{
 
@@ -255,7 +255,7 @@ int ECC_Decrypt(unsigned char *msg,const EC_GROUP *group,unsigned char *cipher, 
 #endif
 
 	/* B4 */
-	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ M=C2^t */
+	/* ½øÐÐÒì»ò¼ÆËã M=C2^t */
 	for(i=0;i<klen;i++)
 	{
 		pstr_c[i] ^= (unsigned char)pstr_t[i];
@@ -273,7 +273,7 @@ int ECC_Decrypt(unsigned char *msg,const EC_GROUP *group,unsigned char *cipher, 
 	
 
 	/* B5 */
-	/* ï¿½ï¿½ï¿½ï¿½u = Hash(x2||M||y2) */
+	/* ¼ÆËãu = Hash(x2||M||y2) */
 	BN_copy(u,x2);
 	BN_lshift(u,u, klen*8);
 	//
@@ -313,15 +313,15 @@ int ECC_Decrypt(unsigned char *msg,const EC_GROUP *group,unsigned char *cipher, 
 }
 #endif
 
-	//ï¿½È½ï¿½hashï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
-	for( i=0; i<(int)(sizeof(mac_u));i++)
+	//±È½Ïhash£¬Èç¹û²»Í¬£¬·µ»ØÊ§°Ü
+	for( i=0;i<sizeof(mac_u);i++)
 	{
 		if( mac_in[i]!=mac_u[i] )
 		{
 
 			iret = 1;
 #ifdef TEST
-		printf("macÐ£ï¿½ï¿½Ê§ï¿½ï¿½\n");
+		printf("macÐ£ÑéÊ§°Ü\n");
 #endif
 
 			goto end;
@@ -329,7 +329,7 @@ int ECC_Decrypt(unsigned char *msg,const EC_GROUP *group,unsigned char *cipher, 
 	}
 		
 
-	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//Êä³öÃ÷ÎÄ
 	memcpy(msg,pstr_c,klen);
 
 	iret = 0;

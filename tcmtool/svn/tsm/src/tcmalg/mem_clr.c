@@ -1,18 +1,18 @@
 /* mem_clr.c */
 
 #include <string.h>
-//#include "openssl/crypto.h"
+#include "crypto.h"
 
 unsigned char cleanse_ctr = 0;
 
 void OPENSSL_cleanse(void *ptr, size_t len)
 	{
-	unsigned char *p = ptr;
+	unsigned char *p = (unsigned char *)ptr;
 	size_t loop = len;
 	while(loop--)
 		{
 		*(p++) = cleanse_ctr;
-		cleanse_ctr += (17 + (unsigned char)((int)p & 0xF));
+		cleanse_ctr += (17 + (unsigned char)((int)(long)p & 0xF));
 		}
 	if(memchr(ptr, cleanse_ctr, len))
 		cleanse_ctr += 63;

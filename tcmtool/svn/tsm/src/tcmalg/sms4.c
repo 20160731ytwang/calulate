@@ -2,7 +2,7 @@
 #include "string.h"
 
 /* 
-Ê¹ï¿½Ã¾Ö²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ linyang 2006.12.21
+Ê¹ÓÃ¾Ö²¿±äÁ¿£¬±ÜÃâ¶àÏß³ÌÊ±³ö´í linyang 2006.12.21
 SMS4_KEY smsKey;
 */
 
@@ -15,7 +15,7 @@ UINT32 Unpack32(BYTE * src)
 }
 
 /* 
-//ï¿½ï¿½ï¿½Ô²ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½ linyang 2006.12.21
+¿ÉÒÔ²»ÔÙÊ¹ÓÃ linyang 2006.12.21
 void SMS4Init(SMS4_KEY *pSmsKey)
 {
 	int i;
@@ -27,23 +27,24 @@ void SMS4Init(SMS4_KEY *pSmsKey)
 /* ROTATE_LEFT rotates x left n bits.*/
 #define ROTATE_LEFT(x, n) (((x) << (n)) | ((x) >> (32-(n))))
 
-// S box data */
-static UINT8 SBX[16][16] = {{0xd6,0x90,0xe9,0xfe,0xcc,0xe1,0x3d,0xb7,0x16,0xb6,0x14,0xc2,0x28,0xfb,0x2c,0x05},
-		{0x2b,0x67,0x9a,0x76,0x2a,0xbe,0x04,0xc3,0xaa,0x44,0x13,0x26,0x49,0x86,0x06,0x99},
-		{0x9c,0x42,0x50,0xf4,0x91,0xef,0x98,0x7a,0x33,0x54,0x0b,0x43,0xed,0xcf,0xac,0x62},
-		{0xe4,0xb3,0x1c,0xa9,0xc9,0x08,0xe8,0x95,0x80,0xdf,0x94,0xfa,0x75,0x8f,0x3f,0xa6},
-		{0x47,0x07,0xa7,0xfc,0xf3,0x73,0x17,0xba,0x83,0x59,0x3c,0x19,0xe6,0x85,0x4f,0xa8},
-		{0x68,0x6b,0x81,0xb2,0x71,0x64,0xda,0x8b,0xf8,0xeb,0x0f,0x4b,0x70,0x56,0x9d,0x35},
-		{0x1e,0x24,0x0e,0x5e,0x63,0x58,0xd1,0xa2,0x25,0x22,0x7c,0x3b,0x01,0x21,0x78,0x87},
-		{0xd4,0x00,0x46,0x57,0x9f,0xd3,0x27,0x52,0x4c,0x36,0x02,0xe7,0xa0,0xc4,0xc8,0x9e},
-		{0xea,0xbf,0x8a,0xd2,0x40,0xc7,0x38,0xb5,0xa3,0xf7,0xf2,0xce,0xf9,0x61,0x15,0xa1},
-		{0xe0,0xae,0x5d,0xa4,0x9b,0x34,0x1a,0x55,0xad,0x93,0x32,0x30,0xf5,0x8c,0xb1,0xe3},
-		{0x1d,0xf6,0xe2,0x2e,0x82,0x66,0xca,0x60,0xc0,0x29,0x23,0xab,0x0d,0x53,0x4e,0x6f},
-		{0xd5,0xdb,0x37,0x45,0xde,0xfd,0x8e,0x2f,0x03,0xff,0x6a,0x72,0x6d,0x6c,0x5b,0x51},
-		{0x8d,0x1b,0xaf,0x92,0xbb,0xdd,0xbc,0x7f,0x11,0xd9,0x5c,0x41,0x1f,0x10,0x5a,0xd8},
-		{0x0a,0xc1,0x31,0x88,0xa5,0xcd,0x7b,0xbd,0x2d,0x74,0xd0,0x12,0xb8,0xe5,0xb4,0xb0},
-		{0x89,0x69,0x97,0x4a,0x0c,0x96,0x77,0x7e,0x65,0xb9,0xf1,0x09,0xc5,0x6e,0xc6,0x84},
-		{0x18,0xf0,0x7d,0xec,0x3a,0xdc,0x4d,0x20,0x79,0xee,0x5f,0x3e,0xd7,0xcb,0x39,0x48}};
+/* S box data */
+static UINT8 SBX[16][16] = {
+	0xd6,0x90,0xe9,0xfe,0xcc,0xe1,0x3d,0xb7,0x16,0xb6,0x14,0xc2,0x28,0xfb,0x2c,0x05,
+		0x2b,0x67,0x9a,0x76,0x2a,0xbe,0x04,0xc3,0xaa,0x44,0x13,0x26,0x49,0x86,0x06,0x99,
+		0x9c,0x42,0x50,0xf4,0x91,0xef,0x98,0x7a,0x33,0x54,0x0b,0x43,0xed,0xcf,0xac,0x62,
+		0xe4,0xb3,0x1c,0xa9,0xc9,0x08,0xe8,0x95,0x80,0xdf,0x94,0xfa,0x75,0x8f,0x3f,0xa6,
+		0x47,0x07,0xa7,0xfc,0xf3,0x73,0x17,0xba,0x83,0x59,0x3c,0x19,0xe6,0x85,0x4f,0xa8,
+		0x68,0x6b,0x81,0xb2,0x71,0x64,0xda,0x8b,0xf8,0xeb,0x0f,0x4b,0x70,0x56,0x9d,0x35,
+		0x1e,0x24,0x0e,0x5e,0x63,0x58,0xd1,0xa2,0x25,0x22,0x7c,0x3b,0x01,0x21,0x78,0x87,
+		0xd4,0x00,0x46,0x57,0x9f,0xd3,0x27,0x52,0x4c,0x36,0x02,0xe7,0xa0,0xc4,0xc8,0x9e,
+		0xea,0xbf,0x8a,0xd2,0x40,0xc7,0x38,0xb5,0xa3,0xf7,0xf2,0xce,0xf9,0x61,0x15,0xa1,
+		0xe0,0xae,0x5d,0xa4,0x9b,0x34,0x1a,0x55,0xad,0x93,0x32,0x30,0xf5,0x8c,0xb1,0xe3,
+		0x1d,0xf6,0xe2,0x2e,0x82,0x66,0xca,0x60,0xc0,0x29,0x23,0xab,0x0d,0x53,0x4e,0x6f,
+		0xd5,0xdb,0x37,0x45,0xde,0xfd,0x8e,0x2f,0x03,0xff,0x6a,0x72,0x6d,0x6c,0x5b,0x51,
+		0x8d,0x1b,0xaf,0x92,0xbb,0xdd,0xbc,0x7f,0x11,0xd9,0x5c,0x41,0x1f,0x10,0x5a,0xd8,
+		0x0a,0xc1,0x31,0x88,0xa5,0xcd,0x7b,0xbd,0x2d,0x74,0xd0,0x12,0xb8,0xe5,0xb4,0xb0,
+		0x89,0x69,0x97,0x4a,0x0c,0x96,0x77,0x7e,0x65,0xb9,0xf1,0x09,0xc5,0x6e,0xc6,0x84,
+		0x18,0xf0,0x7d,0xec,0x3a,0xdc,0x4d,0x20,0x79,0xee,0x5f,0x3e,0xd7,0xcb,0x39,0x48};
 
 UINT8 SBox(UINT8 into)
 {
@@ -186,14 +187,14 @@ void SMS4Dec (UINT32 Cipher[4],UINT32 Plain[4], SMS4_KEY *pSmsKey)
 /*
 * func : sms4CBC_xor()
 * Input :  
-* 		BYTE * str1 : ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½Ö·1
-*		BYTE * str2 : ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½Ö·2
-*		BYTE * outStrï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö·
-*		UINT32 lenï¿½ï¿½ï¿½ï¿½ï¿½ò³¤¶ï¿½
+* 		BYTE * str1 : Òì»òÔ´µØÖ·1
+*		BYTE * str2 : Òì»òÔ´µØÖ·2
+*		BYTE * outStr£ºÒì»òÊä³öµØÖ·
+*		UINT32 len£ºÒì»ò³¤¶È
 * Output :
-*		0 : ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
-*		Len : ï¿½ï¿½ï¿½ò³¤¶ï¿½
-* Func Desp : CBCÄ£Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+*		0 : Òì»òÊ§°Ü
+*		Len : Òì»ò³¤¶È
+* Func Desp : CBCÄ£Ê½µÄÒì»òÔËËã
 */
 UINT32 sms4CBC_xor(BYTE * str1, BYTE * str2, BYTE * outStr, UINT32 len)
 {
@@ -207,19 +208,19 @@ UINT32 sms4CBC_xor(BYTE * str1, BYTE * str2, BYTE * outStr, UINT32 len)
 /*
 * func : Sms4CBC_E()
 * Input :  
-* 		BYTE *IV : IVï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¿ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½128bits
-*		BYTE *M : ï¿½ï¿½ï¿½Äµï¿½Ö·
-*		UINT32 mLen: ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
-*		BYTE *Sï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Ö·
-* 		BYTE *pucKey : ï¿½ï¿½Ô¿
+* 		BYTE *IV : IV£¬ºÍÃÜÔ¿³¤¶ÈÒ»Ñù£¬128bits
+*		BYTE *M : Ã÷ÎÄµØÖ·
+*		UINT32 mLen: Ã÷ÎÄ³¤¶È
+*		BYTE *S£ºÃÜÎÄµØÖ·
+* 		BYTE *pucKey : ÃÜÔ¿
 * Output :
-*		ï¿½ï¿½1 : ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
-*		Len : ï¿½ï¿½ï¿½Üºó³¤¶ï¿½
-* Func Desp : CBCÄ£Ê½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+*		£­1 : ¼ÓÃÜÊ§°Ü
+*		Len : ¼ÓÃÜºó³¤¶È
+* Func Desp : CBCÄ£Ê½µÄ¼ÓÃÜÔËËã
 */
 INT32 Sms4CBC_E(BYTE *IV, BYTE *M, INT32 mLen, BYTE *S, BYTE *pucKey)
 {
-	SMS4_KEY smsKey = {{0}};
+	SMS4_KEY smsKey = {0};
 	INT32	i = 0;
 	BYTE	sms4Buff[SMS4_BLOCK_SIZE];
 	BYTE	*tmpM, *tmpS;
@@ -233,9 +234,9 @@ INT32 Sms4CBC_E(BYTE *IV, BYTE *M, INT32 mLen, BYTE *S, BYTE *pucKey)
 
 	while((mLen - i) > 0)
 	{
-		sms4CBC_xor(tmpM, sms4Buff, sms4Buff, SMS4_BLOCK_SIZE);	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-		SMS4Enc((UINT32 *)sms4Buff, (UINT32 *)tmpS, &smsKey);	//ï¿½Ù¼ï¿½ï¿½ï¿½
-		memcpy(sms4Buff, tmpS, SMS4_BLOCK_SIZE);				//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ÖµÄ¼ï¿½ï¿½Ü½ï¿½ï¿½ï¿½
+		sms4CBC_xor(tmpM, sms4Buff, sms4Buff, SMS4_BLOCK_SIZE);	//ÏÈÒì»ò
+		SMS4Enc((UINT32 *)sms4Buff, (UINT32 *)tmpS, &smsKey);	//ÔÙ¼ÓÃÜ
+		memcpy(sms4Buff, tmpS, SMS4_BLOCK_SIZE);				//±£ÁôÉÏÒ»ÂÖµÄ¼ÓÃÜ½á¹û
 		tmpS = tmpS + SMS4_BLOCK_SIZE;
 		tmpM = tmpM + SMS4_BLOCK_SIZE;
 		i = i + SMS4_BLOCK_SIZE;
@@ -246,19 +247,19 @@ INT32 Sms4CBC_E(BYTE *IV, BYTE *M, INT32 mLen, BYTE *S, BYTE *pucKey)
 /*
 * func : Sms4CBC_D()
 * Input :  
-* 		BYTE *IV : IVï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¿ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½128bits
-*		BYTE *M : ï¿½ï¿½ï¿½Äµï¿½Ö·
-*		UINT32 mLen: ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
-*		BYTE *Sï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Ö·
-* 		BYTE *pucKey : ï¿½ï¿½Ô¿
+* 		BYTE *IV : IV£¬ºÍÃÜÔ¿³¤¶ÈÒ»Ñù£¬128bits
+*		BYTE *M : Ã÷ÎÄµØÖ·
+*		UINT32 mLen: ÃÜÎÄ³¤¶È
+*		BYTE *S£ºÃÜÎÄµØÖ·
+* 		BYTE *pucKey : ÃÜÔ¿
 * Output :
-*		ï¿½ï¿½1 : ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
-*		Len : ï¿½ï¿½ï¿½Üºó³¤¶ï¿½
-* Func Desp : CBCÄ£Ê½ï¿½Ä½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+*		£­1 : ½âÃÜÊ§°Ü
+*		Len : ½âÃÜºó³¤¶È
+* Func Desp : CBCÄ£Ê½µÄ½âÃÜÔËËã
 */
 INT32 Sms4CBC_D(BYTE *IV, BYTE *M, INT32 mLen, BYTE *S, BYTE *pucKey)
 {
-	SMS4_KEY smsKey = {{0}};
+	SMS4_KEY smsKey = {0};
 	INT32	i = 0;
 	BYTE	sms4Buff[SMS4_BLOCK_SIZE];
 	BYTE	*tmpM, *tmpS;
@@ -271,9 +272,9 @@ INT32 Sms4CBC_D(BYTE *IV, BYTE *M, INT32 mLen, BYTE *S, BYTE *pucKey)
 
 	while((mLen - i) > 0)
 	{
-		SMS4Dec((UINT32 *)tmpS, (UINT32 *)tmpM, &smsKey);					//ï¿½È½ï¿½ï¿½ï¿½
-		sms4CBC_xor(tmpM, sms4Buff, tmpM, SMS4_BLOCK_SIZE);			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-		memcpy(sms4Buff, tmpS, SMS4_BLOCK_SIZE);					//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Ö½ï¿½ï¿½ï¿½
+		SMS4Dec((UINT32 *)tmpS, (UINT32 *)tmpM, &smsKey);					//ÏÈ½âÃÜ
+		sms4CBC_xor(tmpM, sms4Buff, tmpM, SMS4_BLOCK_SIZE);			//ÔÙÒì»ò
+		memcpy(sms4Buff, tmpS, SMS4_BLOCK_SIZE);					//±£ÁôÉÏÒ»ÂÖ½á¹û
 		tmpS = tmpS + SMS4_BLOCK_SIZE;
 		tmpM = tmpM + SMS4_BLOCK_SIZE;
 		i = i + SMS4_BLOCK_SIZE;
@@ -285,18 +286,18 @@ INT32 Sms4CBC_D(BYTE *IV, BYTE *M, INT32 mLen, BYTE *S, BYTE *pucKey)
 /*
 * func : Sms4ECB_E()
 * Input :  
-*		BYTE *M : ï¿½ï¿½ï¿½Äµï¿½Ö·
-*		UINT32 mLen: ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
-*		BYTE *Sï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Ö·
-* 		BYTE *pucKey : ï¿½ï¿½Ô¿
+*		BYTE *M : Ã÷ÎÄµØÖ·
+*		UINT32 mLen: Ã÷ÎÄ³¤¶È
+*		BYTE *S£ºÃÜÎÄµØÖ·
+* 		BYTE *pucKey : ÃÜÔ¿
 * Output :
-*		ï¿½ï¿½1 : ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
-*		Len : ï¿½ï¿½ï¿½Üºó³¤¶ï¿½
-* Func Desp : CBCÄ£Ê½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+*		£­1 : ¼ÓÃÜÊ§°Ü
+*		Len : ¼ÓÃÜºó³¤¶È
+* Func Desp : CBCÄ£Ê½µÄ¼ÓÃÜÔËËã
 */
 INT32 Sms4ECB_E(BYTE *M, INT32 mLen, BYTE *S, BYTE *pucKey)
 {
-	SMS4_KEY smsKey = {{0}};
+	SMS4_KEY smsKey = {0};
 	INT32	i = 0;
 	BYTE	*tmpM, *tmpS;
 	
@@ -306,7 +307,7 @@ INT32 Sms4ECB_E(BYTE *M, INT32 mLen, BYTE *S, BYTE *pucKey)
 
 	while((mLen - i) > 0)
 	{
-		SMS4Enc((UINT32 *)tmpM, (UINT32 *)tmpS, &smsKey);							//ï¿½ï¿½ï¿½ï¿½
+		SMS4Enc((UINT32 *)tmpM, (UINT32 *)tmpS, &smsKey);							//¼ÓÃÜ
 		tmpS = tmpS + SMS4_BLOCK_SIZE;
 		tmpM = tmpM + SMS4_BLOCK_SIZE;
 		i = i + SMS4_BLOCK_SIZE;
@@ -317,18 +318,18 @@ INT32 Sms4ECB_E(BYTE *M, INT32 mLen, BYTE *S, BYTE *pucKey)
 /*
 * func : Sms4ECB_D()
 * Input :  
-*		BYTE *M : ï¿½ï¿½ï¿½Äµï¿½Ö·
-*		UINT32 mLen: ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
-*		BYTE *Sï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Ö·
-* 		BYTE *pucKey : ï¿½ï¿½Ô¿
+*		BYTE *M : Ã÷ÎÄµØÖ·
+*		UINT32 mLen: ÃÜÎÄ³¤¶È
+*		BYTE *S£ºÃÜÎÄµØÖ·
+* 		BYTE *pucKey : ÃÜÔ¿
 * Output :
-*		ï¿½ï¿½1 : ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
-*		Len : ï¿½ï¿½ï¿½Üºó³¤¶ï¿½
-* Func Desp : CBCÄ£Ê½ï¿½Ä½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+*		£­1 : ½âÃÜÊ§°Ü
+*		Len : ½âÃÜºó³¤¶È
+* Func Desp : CBCÄ£Ê½µÄ½âÃÜÔËËã
 */
 INT32 Sms4ECB_D(BYTE *M, INT32 mLen, BYTE *S, BYTE *pucKey)
 {
-	SMS4_KEY smsKey = {{0}};
+	SMS4_KEY smsKey = {0};
 	INT32	i = 0;
 	BYTE	*tmpM, *tmpS;
 	
@@ -338,7 +339,7 @@ INT32 Sms4ECB_D(BYTE *M, INT32 mLen, BYTE *S, BYTE *pucKey)
 
 	while((mLen - i) > 0)
 	{
-		SMS4Dec((UINT32 *)tmpS, (UINT32 *)tmpM, &smsKey);			//ï¿½ï¿½ï¿½ï¿½
+		SMS4Dec((UINT32 *)tmpS, (UINT32 *)tmpM, &smsKey);			//½âÃÜ
 		tmpS = tmpS + SMS4_BLOCK_SIZE;
 		tmpM = tmpM + SMS4_BLOCK_SIZE;
 		i = i + SMS4_BLOCK_SIZE;
@@ -350,10 +351,10 @@ INT32 Sms4ECB_D(BYTE *M, INT32 mLen, BYTE *S, BYTE *pucKey)
 /*
 * func : SMS4_fill()
 * Input :  
-* 		BYTE *in : Ô´ï¿½ï¿½Ö·
-*		BYTE *len : Ô´ï¿½ï¿½ï¿½ï¿½
+* 		BYTE *in : Ô´µØÖ·
+*		BYTE *len : Ô´³¤¶È
 * Output :
-* Func Desp : ï¿½ï¿½ï¿½äº¯ï¿½ï¿½
+* Func Desp : Ìî³äº¯Êý
 */
 void SMS4_fill(BYTE *in, INT32 *len)
 {
@@ -363,10 +364,10 @@ void SMS4_fill(BYTE *in, INT32 *len)
 	tmpLen = *len;
 	p = in;
 
-	if (tmpLen & 0x0f)	//ï¿½ï¿½ï¿½ï¿½16ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	if (tmpLen & 0x0f)	//²»ÊÇ16µÄÕûÊý±¶
 	{
 		fillByte = 16 - (tmpLen & 0x0f);						
-	}else		//16ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	}else		//16µÄÕûÊý±¶
 	{
 		fillByte = 16;
 	}
@@ -377,16 +378,16 @@ void SMS4_fill(BYTE *in, INT32 *len)
 /*
 * func : SMS4_E()
 * Input :  
-* 		BYTE *IV : IVï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¿ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½128bitsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ECBÄ£Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0
-*		BYTE *M : ï¿½ï¿½ï¿½Äµï¿½Ö·
-*		UINT32 mLen: ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
-*		BYTE *Sï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Ö·
-* 		BYTE *key : ï¿½ï¿½Ô¿
-*		BYTE mode:SMS4Ä£Ê½Ñ¡ï¿½ï¿½
+* 		BYTE *IV : IV£¬ºÍÃÜÔ¿³¤¶ÈÒ»Ñù£¬128bits£¬Èç¹ûÊÇECBÄ£Ê½£¬¿ÉÒÔÌî0
+*		BYTE *M : Ã÷ÎÄµØÖ·
+*		UINT32 mLen: Ã÷ÎÄ³¤¶È
+*		BYTE *S£ºÃÜÎÄµØÖ·
+* 		BYTE *key : ÃÜÔ¿
+*		BYTE mode:SMS4Ä£Ê½Ñ¡Ôñ
 * Output :
-*		ï¿½ï¿½1 : ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
-*		Len : ï¿½ï¿½ï¿½Üºó³¤¶ï¿½
-* Func Desp : SMS4ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+*		£­1 : ¼ÓÃÜÊ§°Ü
+*		Len : ¼ÓÃÜºó³¤¶È
+* Func Desp : SMS4µÄ¼ÓÃÜÔËËã
 */
 INT32 SMS4_E(BYTE *IV, BYTE *M, INT32 mLen, BYTE *S, BYTE *key, BYTE mode)
 {
@@ -394,7 +395,7 @@ INT32 SMS4_E(BYTE *IV, BYTE *M, INT32 mLen, BYTE *S, BYTE *key, BYTE mode)
 
 	//
 	// 2009/07/29
-	// É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½Èµï¿½ï¿½Ð¶ï¿½
+	// É¾³ý¶ÔÃ÷ÎÄ³¤¶ÈµÄÅÐ¶Ï
 	//
 	//if (!M || !S || !key || mLen <= 0 || mLen > SMS4_MAX_LEN)
 	//	return	-1;
@@ -429,16 +430,16 @@ INT32 SMS4_E(BYTE *IV, BYTE *M, INT32 mLen, BYTE *S, BYTE *key, BYTE mode)
 /*
 * func : SMS4_D()
 * Input :  
-* 		BYTE *IV : IVï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô¿ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½128bitsï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ECBÄ£Ê½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0
-*		BYTE *M : ï¿½ï¿½ï¿½Äµï¿½Ö·
-*		UINT32 mLen: ï¿½ï¿½ï¿½Ä³ï¿½ï¿½ï¿½
-*		BYTE *Sï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½Ö·
-* 		BYTE *key : ï¿½ï¿½Ô¿
-*		BYTE mode:SMS4Ä£Ê½Ñ¡ï¿½ï¿½
+* 		BYTE *IV : IV£¬ºÍÃÜÔ¿³¤¶ÈÒ»Ñù£¬128bits£¬Èç¹ûÊÇECBÄ£Ê½£¬¿ÉÒÔÌî0
+*		BYTE *M : Ã÷ÎÄµØÖ·
+*		UINT32 mLen: ÃÜÎÄ³¤¶È
+*		BYTE *S£ºÃÜÎÄµØÖ·
+* 		BYTE *key : ÃÜÔ¿
+*		BYTE mode:SMS4Ä£Ê½Ñ¡Ôñ
 * Output :
-*		ï¿½ï¿½1 : ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
-*		Len : ï¿½ï¿½ï¿½Üºó³¤¶ï¿½
-* Func Desp : SMS4ï¿½Ä½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+*		£­1 : ¼ÓÃÜÊ§°Ü
+*		Len : ¼ÓÃÜºó³¤¶È
+* Func Desp : SMS4µÄ½âÃÜÔËËã
 */
 INT32 SMS4_D(BYTE *IV, BYTE *M, INT32 mLen, BYTE *S, BYTE *key, BYTE mode)
 {
@@ -449,7 +450,7 @@ INT32 SMS4_D(BYTE *IV, BYTE *M, INT32 mLen, BYTE *S, BYTE *key, BYTE mode)
 
 	//
 	// 2009/07/29
-	// É¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½Èµï¿½ï¿½Ð¶ï¿½
+	// É¾³ý¶ÔÃ÷ÎÄ³¤¶ÈµÄÅÐ¶Ï
 	//
 	//if (mLen & 0x0f || mLen > (SMS4_MAX_LEN + SMS4_BLOCK_SIZE))
 	//	return	-1;
